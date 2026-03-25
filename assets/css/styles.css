@@ -1633,6 +1633,285 @@ figcaption {
     font-weight: 700;
 }
 
+/* ── Estimator v2: card + pill UI ── */
+
+.est-live {
+    display: flex;
+    align-items: center;
+    gap: 12px 24px;
+    flex-wrap: wrap;
+    background: rgba(35, 135, 232, 0.14);
+    border: 1px solid rgba(35, 135, 232, 0.28);
+    border-radius: 14px;
+    padding: 16px 20px;
+    margin-bottom: 6px;
+}
+
+.est-live-left {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.est-live-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    opacity: 0.65;
+    font-weight: 600;
+}
+
+.est-live-range {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: var(--brand-green);
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+.est-live-range.is-active {
+    color: var(--brand-green);
+}
+
+.est-live-hint {
+    font-size: 0.78rem;
+    opacity: 0.52;
+    align-self: flex-end;
+    padding-bottom: 2px;
+}
+
+.est-step {
+    margin-bottom: 22px;
+}
+
+.est-step-header {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 11px;
+}
+
+.est-step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--brand-blue);
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    font-family: "Space Grotesk", sans-serif;
+}
+
+.est-step-num-alt {
+    background: rgba(255, 255, 255, 0.12);
+    font-size: 0.8rem;
+}
+
+.est-step-label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.est-step-hint {
+    font-size: 0.76rem;
+    color: rgba(255, 255, 255, 0.45);
+    margin: 8px 0 0;
+}
+
+/* Service cards */
+.est-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+    gap: 7px;
+}
+
+.est-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 13px 8px 11px;
+    border: 1.5px solid rgba(255, 255, 255, 0.1);
+    border-radius: 11px;
+    background: rgba(255, 255, 255, 0.04);
+    cursor: pointer;
+    transition: border-color 0.14s, background 0.14s, transform 0.1s;
+    font: inherit;
+    color: rgba(255, 255, 255, 0.82);
+    text-align: center;
+    line-height: 1;
+}
+
+.est-card:hover {
+    border-color: rgba(255, 255, 255, 0.24);
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-1px);
+}
+
+.est-card.is-active {
+    border-color: var(--brand-blue);
+    background: rgba(35, 135, 232, 0.2);
+    color: #fff;
+}
+
+.est-card-icon {
+    font-size: 1.35rem;
+    line-height: 1;
+    display: block;
+}
+
+.est-card-label {
+    font-size: 0.73rem;
+    font-weight: 600;
+    line-height: 1.25;
+}
+
+/* Pill selectors */
+.est-step-row {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: start;
+    column-gap: 0;
+    row-gap: 0;
+}
+
+.est-step-row .est-step-header {
+    grid-column: 1 / -1;
+}
+
+.est-step-row .est-pills {
+    grid-column: 1 / -1;
+}
+
+.est-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.est-pill {
+    padding: 7px 15px;
+    border: 1.5px solid rgba(255, 255, 255, 0.12);
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.04);
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.78);
+    transition: border-color 0.14s, background 0.14s;
+    white-space: nowrap;
+}
+
+.est-pill:hover {
+    border-color: rgba(255, 255, 255, 0.28);
+    background: rgba(255, 255, 255, 0.09);
+    color: #fff;
+}
+
+.est-pill.is-active {
+    border-color: var(--brand-blue);
+    background: rgba(35, 135, 232, 0.22);
+    color: #fff;
+    font-weight: 600;
+}
+
+/* Add-ons */
+.est-step-addons {
+    padding: 14px 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 12px;
+    margin-bottom: 22px;
+}
+
+.est-addon-groups {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.est-addon-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.est-addon-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 0.86rem;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.8);
+    transition: color 0.12s;
+}
+
+.est-addon-item:last-child {
+    border-bottom: none;
+}
+
+.est-addon-item:hover {
+    color: #fff;
+}
+
+.est-addon-item input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+    accent-color: var(--brand-blue);
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.est-addon-name {
+    flex: 1;
+}
+
+.est-addon-price {
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: var(--brand-green);
+    white-space: nowrap;
+}
+
+.est-addons-empty {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin: 4px 0 0;
+    font-style: italic;
+}
+
+.optional-label {
+    font-size: 0.78rem;
+    opacity: 0.55;
+    font-weight: 400;
+}
+
+@media (max-width: 820px) {
+    .est-live-range {
+        font-size: 1.55rem;
+    }
+
+    .est-cards {
+        grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+    }
+
+    .est-card {
+        padding: 11px 6px 9px;
+    }
+
+    .est-card-icon {
+        font-size: 1.15rem;
+    }
+}
+
 @media (max-width: 1080px) {
     .testimonial-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));

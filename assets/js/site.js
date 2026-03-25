@@ -47,6 +47,43 @@ const SERVICE_CONFIG = {
     }
 };
 
+const SERVICE_ICONS = {
+    "Pressure washing": "✦",
+    "House washing": "🏠",
+    "Driveway cleaning": "🚗",
+    "Patio or pool deck cleaning": "☀",
+    "Commercial pressure washing": "🏢",
+    "Hot-water steam cleaning": "♨",
+    "Window cleaning": "🪟"
+};
+
+const SERVICE_ADDONS = {
+    "House washing": [
+        { id: "fence", label: "Fence cleaning", price: 85 },
+        { id: "gutters-ext", label: "Gutter exterior wash", price: 65 }
+    ],
+    "Driveway cleaning": [
+        { id: "oil-treat", label: "Oil stain pretreatment", price: 75 },
+        { id: "rust-treat", label: "Rust treatment", price: 60 }
+    ],
+    "Patio or pool deck cleaning": [
+        { id: "algae", label: "Algae / moss treatment", price: 45 },
+        { id: "furniture", label: "Move patio furniture", price: 35 }
+    ],
+    "Commercial pressure washing": [
+        { id: "gum", label: "Gum removal add-on", price: 65 },
+        { id: "dumpster", label: "Dumpster pad cleaning", price: 95 }
+    ],
+    "Hot-water steam cleaning": [
+        { id: "degreaser", label: "Heavy degreaser pretreat", price: 55 },
+        { id: "multi", label: "Second surface discount", price: -50 }
+    ],
+    "Window cleaning": [
+        { id: "screens", label: "Screen cleaning", price: 40 },
+        { id: "tracks", label: "Track and sill detail", price: 30 }
+    ]
+};
+
 const SLIDER_SCALES = {
     service: {
         fieldLabel: "What needs cleaning?",
@@ -369,45 +406,110 @@ function getDefaultAreaIndex(preferredCity) {
     return findStepIndex("area", areaValue);
 }
 
-function buildSliderField(baseId, scale, defaultIndex, stepNumber) {
+function buildLivePricePanel(formId) {
+    return (
+        '<div class="est-live" aria-live="polite" aria-atomic="true">' +
+            '<div class="est-live-left">' +
+                '<span class="est-live-label">Ballpark estimate</span>' +
+                '<span class="est-live-range" id="' + formId + '-live-range">\u2014</span>' +
+            '</div>' +
+            '<span class="est-live-hint">Updates as you make selections</span>' +
+        '</div>'
+    );
+}
+
+function buildCardField(formId, scale, defaultIndex, stepNum) {
     const config = getScaleConfig(scale);
-    const inputId = baseId + "-" + scale;
-    const helpId = inputId + "-help";
-    const valueId = inputId + "-value";
-    const stepLabel = String(stepNumber || 0).padStart(2, "0");
-    const points = config.steps
-        .map(function (step, index) {
-            return '<button type="button" class="slider-point" data-index="' + index + '" aria-describedby="' + helpId + '">' + escapeHtml(step.label) + "</button>";
-        })
-        .join("");
+    const stepLabel = String(stepNum || 0).padStart(2, "0");
+    const steps = config.steps || [];
+
+    const cards = steps.map(function (step, index) {
+        const icon = SERVICE_ICONS[step.value] || "";
+        const isActive = index === defaultIndex;
+        return (
+            '<button type="button" class="est-card' + (isActive ? " is-active" : "") + '"' +
+            ' data-field="' + scale + 'Level" data-index="' + String(index) + '">' +
+                (icon ? '<span class="est-card-icon" aria-hidden="true">' + icon + '</span>' : "") +
+                '<span class="est-card-label">' + escapeHtml(step.label) + '</span>' +
+            '</button>'
+        );
+    }).join("");
 
     return (
-        '<div class="field slider-field estimator-field" data-scale-name="' + scale + '">' +
-            '<div class="slider-heading">' +
-                '<div class="slider-heading-copy">' +
-                    '<span class="slider-step">' + stepLabel + "</span>" +
-                    '<label for="' + inputId + '">' + escapeHtml(config.fieldLabel) + "</label>" +
-                "</div>" +
-                '<span class="slider-copy">' + escapeHtml(config.hint) + "</span>" +
-            "</div>" +
-            '<input class="slider-input" id="' + inputId + '" name="' + scale + 'Level" type="range" min="0" max="' + String(config.steps.length - 1) + '" step="1" value="' + String(defaultIndex) + '" data-scale="' + scale + '" aria-describedby="' + valueId + " " + helpId + '">' +
-            '<div class="slider-meta">' +
-                '<span class="slider-value" id="' + valueId + '"></span>' +
-                '<span class="slider-hint">' + escapeHtml(config.metaHint) + "</span>" +
-            "</div>" +
-            '<div class="slider-points" style="--point-count:' + String(config.steps.length) + ';">' + points + "</div>" +
-            '<div class="slider-help" id="' + helpId + '">' +
-                '<strong class="slider-help-title"></strong>' +
-                '<p class="slider-help-copy"></p>' +
-            "</div>" +
-        "</div>"
+        '<div class="est-step">' +
+            '<div class="est-step-header">' +
+                '<span class="est-step-num" aria-hidden="true">' + stepLabel + '</span>' +
+                '<span class="est-step-label">' + escapeHtml(config.fieldLabel) + '</span>' +
+            '</div>' +
+            '<input type="hidden" name="' + scale + 'Level" value="' + String(defaultIndex) + '">' +
+            '<div class="est-cards" role="group" aria-label="' + escapeHtml(config.fieldLabel) + '">' +
+                cards +
+            '</div>' +
+            '<p class="est-step-hint">' + escapeHtml(config.hint) + '</p>' +
+        '</div>'
+    );
+}
+
+function buildPillField(formId, scale, defaultIndex, stepNum) {
+    const config = getScaleConfig(scale);
+    const stepLabel = String(stepNum || 0).padStart(2, "0");
+    const steps = config.steps || [];
+
+    const pills = steps.map(function (step, index) {
+        const isActive = index === defaultIndex;
+        return (
+            '<button type="button" class="est-pill' + (isActive ? " is-active" : "") + '"' +
+            ' data-field="' + scale + 'Level" data-index="' + String(index) + '">' +
+                escapeHtml(step.label) +
+            '</button>'
+        );
+    }).join("");
+
+    return (
+        '<div class="est-step est-step-row">' +
+            '<div class="est-step-header">' +
+                '<span class="est-step-num" aria-hidden="true">' + stepLabel + '</span>' +
+                '<span class="est-step-label">' + escapeHtml(config.fieldLabel) + '</span>' +
+            '</div>' +
+            '<input type="hidden" name="' + scale + 'Level" value="' + String(defaultIndex) + '">' +
+            '<div class="est-pills" role="group" aria-label="' + escapeHtml(config.fieldLabel) + '">' +
+                pills +
+            '</div>' +
+        '</div>'
+    );
+}
+
+function buildAddonsSection(formId) {
+    const groups = Object.keys(SERVICE_ADDONS).map(function (service) {
+        const items = SERVICE_ADDONS[service].map(function (addon) {
+            const priceLabel = addon.price < 0 ? "\u2212$" + Math.abs(addon.price) : "+$" + addon.price;
+            return (
+                '<label class="est-addon-item">' +
+                    '<input type="checkbox" name="addon-' + addon.id + '" data-price="' + addon.price + '" data-service="' + escapeHtml(service) + '">' +
+                    '<span class="est-addon-name">' + escapeHtml(addon.label) + '</span>' +
+                    '<span class="est-addon-price">' + priceLabel + '</span>' +
+                '</label>'
+            );
+        }).join("");
+        return '<div class="est-addon-group" data-for-service="' + escapeHtml(service) + '" hidden>' + items + '</div>';
+    }).join("");
+
+    return (
+        '<div class="est-step est-step-addons" id="' + formId + '-addons">' +
+            '<div class="est-step-header">' +
+                '<span class="est-step-num est-step-num-alt" aria-hidden="true">\u2731</span>' +
+                '<span class="est-step-label">Any extras to add?</span>' +
+            '</div>' +
+            '<div class="est-addon-groups">' + groups + '</div>' +
+            '<p class="est-addons-empty">Select a service above to see available add-ons.</p>' +
+        '</div>'
     );
 }
 
 function renderEstimatorForm(form, index) {
     const prefill = readEstimatorPrefill();
-    const existingService = form.dataset.service || form.querySelector("[name='service']")?.value || prefill.service || "";
-    const existingCity = form.dataset.city || form.querySelector("[name='city']")?.value || prefill.city || "";
+    const existingService = form.dataset.service || prefill.service || "";
+    const existingCity = form.dataset.city || prefill.city || "";
     const serviceIndex = findStepIndex("service", existingService);
     const areaIndex = getDefaultAreaIndex(existingCity || "Phoenix");
     const sizeIndex = findStepIndex("size", "Medium");
@@ -419,58 +521,139 @@ function renderEstimatorForm(form, index) {
     form.innerHTML =
         '<div class="estimator-intro">' +
             '<div class="estimator-badges">' +
-                '<span class="estimator-badge">Fast ballpark quote</span>' +
-                '<span class="estimator-badge">Guided job details</span>' +
-                '<span class="estimator-badge">Minimal typing</span>' +
+                '<span class="estimator-badge">Live price estimate</span>' +
+                '<span class="estimator-badge">Phoenix Valley pricing</span>' +
+                '<span class="estimator-badge">No account needed</span>' +
             "</div>" +
-            '<p>Use the guided fields below to describe the job and get a fast ballpark range from Clean Surface.</p>' +
+            '<p>Select your service and job details. The range updates live as you make choices.</p>' +
         "</div>" +
+        buildLivePricePanel(formId) +
         '<div class="estimator-section">' +
-            '<div class="estimator-section-heading">' +
-                '<span>Project snapshot</span>' +
-                '<p>Pick the closest fit. No measurements or technical cleaning terms needed.</p>' +
-            "</div>" +
-            buildSliderField(formId, "service", serviceIndex, 1) +
-            buildSliderField(formId, "area", areaIndex, 2) +
-            '<div class="field-row estimator-row">' +
-                buildSliderField(formId, "size", sizeIndex, 3) +
-                buildSliderField(formId, "condition", conditionIndex, 4) +
-            "</div>" +
-            '<div class="field-row estimator-row">' +
-                buildSliderField(formId, "timeline", timelineIndex, 5) +
-                buildSliderField(formId, "contact", contactIndex, 6) +
-            "</div>" +
+            buildCardField(formId, "service", serviceIndex, 1) +
+            buildPillField(formId, "size", sizeIndex, 2) +
+            buildPillField(formId, "condition", conditionIndex, 3) +
+            buildAddonsSection(formId) +
+            buildPillField(formId, "area", areaIndex, 4) +
+            buildPillField(formId, "timeline", timelineIndex, 5) +
+            buildPillField(formId, "contact", contactIndex, 6) +
         "</div>" +
         '<div class="estimator-section estimator-section-contact">' +
             '<div class="estimator-section-heading">' +
-                '<span>Contact details</span>' +
-                '<p>Type only your contact details. Phone or email works.</p>' +
+                '<span>Your contact info</span>' +
+                '<p>Name and phone or email so the team can send a firm quote.</p>' +
             "</div>" +
             '<div class="field-row">' +
                 '<div class="field"><label for="' + formId + '-name">Name</label><input id="' + formId + '-name" name="name" type="text" placeholder="First and last name" autocomplete="name" value="' + escapeHtml(prefill.name) + '" required></div>' +
-                '<div class="field"><label for="' + formId + '-phone">Phone</label><input id="' + formId + '-phone" name="phone" type="tel" placeholder="Best number for updates" autocomplete="tel" value="' + escapeHtml(prefill.phone) + '"></div>' +
+                '<div class="field"><label for="' + formId + '-phone">Phone</label><input id="' + formId + '-phone" name="phone" type="tel" placeholder="Best number" autocomplete="tel" value="' + escapeHtml(prefill.phone) + '"></div>' +
             "</div>" +
             '<div class="field">' +
-                '<label for="' + formId + '-email">Email (optional)</label>' +
-                '<input id="' + formId + '-email" name="email" type="email" placeholder="Best email for the estimate" autocomplete="email" value="' + escapeHtml(prefill.email) + '">' +
+                '<label for="' + formId + '-email">Email <span class="optional-label">(optional)</span></label>' +
+                '<input id="' + formId + '-email" name="email" type="email" placeholder="Best email address" autocomplete="email" value="' + escapeHtml(prefill.email) + '">' +
             "</div>" +
         "</div>" +
-        '<button class="button button-primary estimator-submit" type="submit">See my ballpark range</button>' +
+        '<button class="button button-primary estimator-submit" type="submit">Get My Estimate</button>' +
         '<p class="quote-note" aria-live="polite"></p>' +
         '<div class="estimate-output" hidden>' +
-            '<p class="estimate-kicker">Ballpark range</p>' +
+            '<p class="estimate-kicker">Your ballpark range</p>' +
             '<h3 class="estimate-price"></h3>' +
             '<p class="estimate-summary"></p>' +
             '<ul class="estimate-list"></ul>' +
         "</div>" +
         '<div class="quote-actions">' +
             '<a class="button button-primary quote-preference-link" href="' + OFFICE_SMS + '">Send My Request</a>' +
-                '<a class="button button-secondary" href="' + OFFICE_CALL + '">Call Now</a>' +
+            '<a class="button button-secondary" href="' + OFFICE_CALL + '">Call Now</a>' +
         "</div>";
+}
+
+function computeAddonTotal(form) {
+    var total = 0;
+    form.querySelectorAll(".est-addon-item input[type='checkbox']:checked").forEach(function (cb) {
+        total += Number(cb.dataset.price) || 0;
+    });
+    return total;
+}
+
+function updateLivePrice(form) {
+    const serviceStep = getScaleStep("service", getFormValue(form, "serviceLevel") || "0");
+    const sizeStep = getScaleStep("size", getFormValue(form, "sizeLevel") || "1");
+    const conditionStep = getScaleStep("condition", getFormValue(form, "conditionLevel") || "1");
+
+    if (!serviceStep || !sizeStep || !conditionStep) {
+        return;
+    }
+
+    const estimate = buildEstimate(serviceStep.value, sizeStep.key || sizeStep.value.toLowerCase(), conditionStep.value);
+    const addonTotal = computeAddonTotal(form);
+    const low = roundToTwentyFive(estimate.low + addonTotal);
+    const high = roundToTwentyFive(estimate.high + addonTotal);
+    const rangeNode = form.querySelector(".est-live-range");
+
+    if (rangeNode) {
+        rangeNode.textContent = formatMoney(low) + " \u2013 " + formatMoney(high);
+        rangeNode.classList.add("is-active");
+    }
+}
+
+function showServiceAddons(form, serviceName) {
+    form.querySelectorAll(".est-addon-group").forEach(function (group) {
+        group.hidden = group.dataset.forService !== serviceName;
+    });
+    const emptyNote = form.querySelector(".est-addons-empty");
+    if (emptyNote) {
+        emptyNote.hidden = !!SERVICE_ADDONS[serviceName];
+    }
+    form.querySelectorAll(".est-addon-item input[type='checkbox']").forEach(function (cb) {
+        cb.checked = false;
+    });
+}
+
+function initEstimatorInteractions(form) {
+    form.addEventListener("click", function (event) {
+        const btn = event.target.closest(".est-card, .est-pill");
+        if (!btn) { return; }
+
+        const fieldName = btn.dataset.field;
+        const indexVal = btn.dataset.index;
+        if (!fieldName || indexVal === undefined) { return; }
+
+        const container = btn.closest(".est-cards, .est-pills");
+        if (container) {
+            container.querySelectorAll(".est-card, .est-pill").forEach(function (b) {
+                b.classList.remove("is-active");
+            });
+        }
+        btn.classList.add("is-active");
+
+        const hiddenInput = form.querySelector("[name='" + fieldName + "']");
+        if (hiddenInput) {
+            hiddenInput.value = indexVal;
+        }
+
+        if (fieldName === "serviceLevel") {
+            const step = getScaleStep("service", indexVal);
+            if (step) { showServiceAddons(form, step.value); }
+        }
+
+        updateLivePrice(form);
+    });
+
+    form.addEventListener("change", function (event) {
+        if (event.target.closest(".est-addon-item")) {
+            updateLivePrice(form);
+        }
+    });
+
+    const defaultServiceStep = getScaleStep("service", getFormValue(form, "serviceLevel") || "0");
+    if (defaultServiceStep) {
+        showServiceAddons(form, defaultServiceStep.value);
+    }
+
+    updateLivePrice(form);
 }
 
 document.querySelectorAll(".quote-form[data-estimator='full']").forEach(function (form, index) {
     renderEstimatorForm(form, index);
+    initEstimatorInteractions(form);
 });
 
 function syncSliderUI(input, previewIndex) {
@@ -651,7 +834,15 @@ document.querySelectorAll(".quote-form").forEach(function (form) {
             }
 
             const estimate = buildEstimate(serviceStep.value, sizeStep.key, conditionStep.value);
-            const priceText = formatMoney(estimate.low) + " - " + formatMoney(estimate.high);
+            const addonTotal = computeAddonTotal(form);
+            const selectedAddons = [];
+            form.querySelectorAll(".est-addon-item input[type='checkbox']:checked").forEach(function (cb) {
+                const nameEl = cb.closest(".est-addon-item") ? cb.closest(".est-addon-item").querySelector(".est-addon-name") : null;
+                if (nameEl) { selectedAddons.push(nameEl.textContent.trim()); }
+            });
+            const adjLow = roundToTwentyFive(estimate.low + addonTotal);
+            const adjHigh = roundToTwentyFive(estimate.high + addonTotal);
+            const priceText = formatMoney(adjLow) + " \u2013 " + formatMoney(adjHigh);
             const summary = "A realistic starting range for " + (serviceStep.summaryLabel || serviceStep.value.toLowerCase()) + " in the " + areaStep.value + " is " + priceText + ". Our team can tighten that once we know the exact property and surfaces involved.";
             const bullets = [
                 serviceStep.helpText,
@@ -663,6 +854,10 @@ document.querySelectorAll(".quote-form").forEach(function (form) {
 
             if (estimate.config.guarantee) {
                 bullets.push(estimate.config.guarantee);
+            }
+
+            if (selectedAddons.length > 0) {
+                bullets.push("Add-ons requested: " + selectedAddons.join(", ") + ".");
             }
 
             const draftParts = [
@@ -682,6 +877,10 @@ document.querySelectorAll(".quote-form").forEach(function (form) {
 
             if (email) {
                 draftParts.push("Best email: " + email + ".");
+            }
+
+            if (selectedAddons.length > 0) {
+                draftParts.push("Add-ons: " + selectedAddons.join(", ") + ".");
             }
 
             const draft = draftParts.join(" ");
