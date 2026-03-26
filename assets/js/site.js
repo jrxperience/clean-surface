@@ -409,11 +409,7 @@ function getDefaultAreaIndex(preferredCity) {
 function buildLivePricePanel(formId) {
     return (
         '<div class="est-live" aria-live="polite" aria-atomic="true">' +
-            '<div class="est-live-left">' +
-                '<span class="est-live-label">Ballpark estimate</span>' +
-                '<span class="est-live-range" id="' + formId + '-live-range">\u2014</span>' +
-            '</div>' +
-            '<span class="est-live-hint">Updates as you make selections</span>' +
+            '<span class="est-live-range" id="' + formId + '-live-range">\u2014</span>' +
         '</div>'
     );
 }
