@@ -528,14 +528,6 @@ function renderEstimatorForm(form, index) {
     const formId = "estimator-" + String(index + 1);
 
     form.innerHTML =
-        '<div class="estimator-intro">' +
-            '<div class="estimator-badges">' +
-                '<span class="estimator-badge">Live price estimate</span>' +
-                '<span class="estimator-badge">Phoenix Valley pricing</span>' +
-                '<span class="estimator-badge">No account needed</span>' +
-            "</div>" +
-            '<p>Select your service and job details. The range updates live as you make choices.</p>' +
-        "</div>" +
         buildLivePricePanel(formId) +
         '<nav class="est-progress" aria-label="Estimator steps">' +
             '<button type="button" class="est-progress-step is-active" data-goto-step="1">01&nbsp;Service</button>' +
