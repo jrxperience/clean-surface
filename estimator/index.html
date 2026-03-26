@@ -82,12 +82,8 @@
             text-transform: uppercase;
             color: var(--muted);
         }
-        .est-progress-step.active .est-progress-label {
-            color: var(--charcoal);
-        }
-        .est-progress-step.done .est-progress-label {
-            color: var(--copper);
-        }
+        .est-progress-step.active .est-progress-label { color: var(--charcoal); }
+        .est-progress-step.done .est-progress-label   { color: var(--copper); }
 
         /* Steps */
         .est-step { display: none; animation: estFade 0.3s ease; }
@@ -169,11 +165,78 @@
             margin-top: 4px;
         }
 
-        /* Option pills (size + condition) */
+        /* Sq ft slider */
+        .est-slider-wrap {
+            margin-bottom: 36px;
+        }
+        .est-slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+        .est-slider-value {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--charcoal);
+            line-height: 1;
+        }
+        .est-slider-hint {
+            font-size: 0.78rem;
+            color: var(--muted);
+        }
+        .est-slider {
+            width: 100%;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--cream-dark);
+            outline: none;
+            cursor: pointer;
+            position: relative;
+        }
+        .est-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: var(--copper);
+            border: 3px solid #fff;
+            box-shadow: 0 2px 10px rgba(184,115,42,0.4);
+            cursor: grab;
+            transition: box-shadow 0.15s;
+        }
+        .est-slider::-webkit-slider-thumb:active { cursor: grabbing; box-shadow: 0 4px 16px rgba(184,115,42,0.55); }
+        .est-slider::-moz-range-thumb {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: var(--copper);
+            border: 3px solid #fff;
+            box-shadow: 0 2px 10px rgba(184,115,42,0.4);
+            cursor: grab;
+        }
+        .est-slider-ticks {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 0.7rem;
+            color: var(--muted);
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        /* Option pills (condition) */
         .est-options {
             display: flex;
             gap: 14px;
-            margin-bottom: 32px;
+            margin-bottom: 28px;
             flex-wrap: wrap;
         }
         .est-option {
@@ -220,6 +283,62 @@
             line-height: 1.4;
         }
 
+        /* Live estimate preview (shown during step 2 once condition selected) */
+        .est-live-preview {
+            background: var(--charcoal);
+            border-radius: 10px;
+            padding: 20px 24px;
+            margin-bottom: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            position: relative;
+            overflow: hidden;
+        }
+        .est-live-preview::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 60% 80% at 100% 50%, rgba(184,115,42,0.18) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .est-live-preview[hidden] { display: none; }
+        .est-live-left {}
+        .est-live-eyebrow {
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--copper-light);
+            margin-bottom: 4px;
+        }
+        .est-live-range {
+            font-family: var(--font-heading);
+            font-size: 2.6rem;
+            font-weight: 700;
+            color: var(--cream);
+            line-height: 1;
+        }
+        .est-live-sub {
+            font-size: 0.78rem;
+            color: rgba(247,243,237,0.5);
+            margin-top: 4px;
+        }
+        .est-live-right {
+            font-size: 0.78rem;
+            color: rgba(247,243,237,0.45);
+            text-align: right;
+            line-height: 1.5;
+        }
+        .est-live-pending {
+            font-size: 0.9rem;
+            color: rgba(247,243,237,0.45);
+            font-style: italic;
+            padding: 4px 0;
+        }
+
         /* Nav buttons */
         .est-nav {
             display: flex;
@@ -238,6 +357,9 @@
             position: relative;
             overflow: hidden;
         }
+        @media (max-width: 480px) {
+            .est-result { padding: 32px 20px; }
+        }
         .est-result::before {
             content: '';
             position: absolute;
@@ -251,30 +373,73 @@
             letter-spacing: 0.12em;
             text-transform: uppercase;
             color: var(--copper-light);
-            margin-bottom: 16px;
+            margin-bottom: 8px;
         }
-        .est-result-service {
+        .est-result-total {
             font-family: var(--font-heading);
-            font-size: 1.2rem;
-            color: rgba(247,243,237,0.7);
-            margin-bottom: 12px;
-        }
-        .est-result-range {
-            font-family: var(--font-heading);
-            font-size: 3.5rem;
+            font-size: 3.8rem;
             font-weight: 700;
             color: var(--cream);
             line-height: 1;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
         @media (max-width: 480px) {
-            .est-result-range { font-size: 2.6rem; }
+            .est-result-total { font-size: 2.8rem; }
         }
-        .est-result-sub {
+        .est-result-meta {
             font-size: 0.82rem;
-            color: rgba(247,243,237,0.55);
-            margin-bottom: 32px;
+            color: rgba(247,243,237,0.5);
+            margin-bottom: 28px;
         }
+
+        /* Breakdown table (multi-service) */
+        .est-breakdown {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            padding: 4px 0;
+            margin-bottom: 24px;
+            text-align: left;
+        }
+        .est-breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .est-breakdown-item:last-child { border-bottom: none; }
+        .est-breakdown-name {
+            font-size: 0.88rem;
+            color: rgba(247,243,237,0.75);
+        }
+        .est-breakdown-range {
+            font-family: var(--font-heading);
+            font-size: 1.05rem;
+            color: var(--cream);
+            font-weight: 600;
+        }
+        .est-breakdown-total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 20px;
+            border-top: 2px solid rgba(184,115,42,0.3);
+        }
+        .est-breakdown-total-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--copper-light);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .est-breakdown-total-range {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--cream);
+        }
+
         .est-result-note {
             background: rgba(255,255,255,0.06);
             border: 1px solid rgba(255,255,255,0.1);
@@ -350,6 +515,7 @@
                     <li><a href="/gallery/">Gallery</a></li>
                     <li><a href="/faqs/">FAQs</a></li>
                     <li><a href="/contact/">Contact</a></li>
+                    <li><a href="/estimator/" aria-current="page">Get Estimate</a></li>
                     <li><a class="button button-primary" href="tel:4802983416">Call for a Quote</a></li>
                 </ul>
             </nav>
@@ -370,7 +536,7 @@
                 <div class="page-hero-copy">
                     <span class="eyebrow">Instant Estimate</span>
                     <h1>Get a ballpark price in 30 seconds.</h1>
-                    <p>Pick your service, size, and condition — we'll show you a realistic range based on real Phoenix metro jobs. No forms, no commitment.</p>
+                    <p>Pick your services, drag the size slider, and choose the condition — your estimate updates live. No forms, no commitment.</p>
                 </div>
             </div>
         </section>
@@ -380,32 +546,28 @@
             <div class="container">
                 <div class="estimator-wrap">
 
-                    <!-- Progress -->
+                    <!-- Progress (3 steps) -->
                     <div class="est-progress" id="est-progress" aria-label="Estimator progress">
                         <div class="est-progress-step active" data-step="1">
                             <div class="est-progress-dot">1</div>
-                            <span class="est-progress-label">Service</span>
+                            <span class="est-progress-label">Services</span>
                         </div>
                         <div class="est-progress-step" data-step="2">
                             <div class="est-progress-dot">2</div>
-                            <span class="est-progress-label">Size</span>
+                            <span class="est-progress-label">Size &amp; Condition</span>
                         </div>
                         <div class="est-progress-step" data-step="3">
-                            <div class="est-progress-dot">3</div>
-                            <span class="est-progress-label">Condition</span>
-                        </div>
-                        <div class="est-progress-step" data-step="4">
                             <div class="est-progress-dot">✦</div>
                             <span class="est-progress-label">Estimate</span>
                         </div>
                     </div>
 
-                    <!-- Step 1: Service -->
+                    <!-- Step 1: Services (multi-select) -->
                     <div class="est-step active" id="est-step-1">
                         <div class="est-step-title">What needs cleaning?</div>
-                        <p class="est-step-hint">Pick the service that best matches your job. You can always ask Steve about bundling multiple surfaces.</p>
+                        <p class="est-step-hint">Select one or more services — we'll estimate each and show a combined total.</p>
 
-                        <div class="est-service-grid" role="group" aria-label="Select a service">
+                        <div class="est-service-grid" role="group" aria-label="Select services">
                             <button class="est-service-card" data-service="house" type="button">
                                 <span class="est-svc-icon">🏠</span>
                                 <span class="est-svc-name">House Washing</span>
@@ -440,69 +602,79 @@
 
                         <div class="est-nav">
                             <span></span>
-                            <button class="button button-primary" id="est-next-1" type="button" disabled>Next: Choose Size →</button>
+                            <button class="button button-primary" id="est-next-1" type="button" disabled>Next: Size &amp; Condition →</button>
                         </div>
                     </div>
 
-                    <!-- Step 2: Size -->
+                    <!-- Step 2: Size (slider) + Condition + Live Estimate -->
                     <div class="est-step" id="est-step-2">
-                        <div class="est-step-title">How much needs cleaning?</div>
-                        <p class="est-step-hint">Think about the total area involved, not exact square footage.</p>
+                        <div class="est-step-title">How big is the job?</div>
+                        <p class="est-step-hint">Drag to the approximate square footage — exact measurements aren't needed.</p>
 
-                        <div class="est-options" role="group" aria-label="Select property size">
-                            <button class="est-option" data-size="small" type="button">
-                                <div class="est-option-title">Small</div>
-                                <div class="est-option-desc">One focused area — just the driveway, front of the house, or a small patio.</div>
-                            </button>
-                            <button class="est-option" data-size="medium" type="button">
-                                <div class="est-option-title">Medium</div>
-                                <div class="est-option-desc">A full home or a couple of surfaces in one visit — typical residential job.</div>
-                            </button>
-                            <button class="est-option" data-size="large" type="button">
-                                <div class="est-option-title">Large</div>
-                                <div class="est-option-desc">Bigger property, multiple surfaces, or a job requiring more time and setup.</div>
-                            </button>
+                        <div class="est-slider-wrap">
+                            <div class="est-slider-header">
+                                <span class="est-slider-value" id="est-sqft-label">1,500 sq ft</span>
+                                <span class="est-slider-hint">Typical Phoenix home exterior: 1,500–3,000 sq ft</span>
+                            </div>
+                            <input type="range" class="est-slider" id="est-sqft"
+                                   min="300" max="8000" step="50" value="1500"
+                                   aria-label="Square footage">
+                            <div class="est-slider-ticks">
+                                <span>Small</span>
+                                <span>Medium</span>
+                                <span>Large</span>
+                            </div>
                         </div>
 
-                        <div class="est-nav">
-                            <button class="button button-ghost" id="est-back-2" type="button">← Back</button>
-                            <button class="button button-primary" id="est-next-2" type="button" disabled>Next: Condition →</button>
-                        </div>
-                    </div>
-
-                    <!-- Step 3: Condition -->
-                    <div class="est-step" id="est-step-3">
-                        <div class="est-step-title">How dirty does it look?</div>
+                        <div class="est-step-title" style="font-size:1.4rem; margin-bottom:6px;">How dirty does it look?</div>
                         <p class="est-step-hint">Go with what you can see — no technical terms needed.</p>
 
                         <div class="est-options" role="group" aria-label="Select surface condition">
                             <button class="est-option" data-condition="light" type="button">
                                 <div class="est-option-title">Light</div>
-                                <div class="est-option-desc">Mostly dust and weathering — routine maintenance with no major stains.</div>
+                                <div class="est-option-desc">Mostly dust — routine maintenance, no major stains.</div>
                             </button>
                             <button class="est-option" data-condition="moderate" type="button">
                                 <div class="est-option-title">Moderate</div>
-                                <div class="est-option-desc">Dingy or patchy — some visible stains or dirty areas that stand out.</div>
+                                <div class="est-option-desc">Some visible stains or dirty patches that stand out.</div>
                             </button>
                             <button class="est-option" data-condition="heavy" type="button">
                                 <div class="est-option-title">Heavy</div>
-                                <div class="est-option-desc">Obvious staining, grease, hard-water marks, or buildup that's been sitting a while.</div>
+                                <div class="est-option-desc">Obvious grease, rust, or buildup sitting a while.</div>
                             </button>
                         </div>
 
+                        <!-- Live estimate preview — shown once condition is selected -->
+                        <div class="est-live-preview" id="est-live-preview" hidden>
+                            <div class="est-live-left">
+                                <div class="est-live-eyebrow">Live Estimate</div>
+                                <div class="est-live-range" id="est-live-range">—</div>
+                                <div class="est-live-sub" id="est-live-sub">Updates as you adjust</div>
+                            </div>
+                            <div class="est-live-right" id="est-live-right">—</div>
+                        </div>
+
                         <div class="est-nav">
-                            <button class="button button-ghost" id="est-back-3" type="button">← Back</button>
-                            <button class="button button-primary" id="est-next-3" type="button" disabled>See My Estimate →</button>
+                            <button class="button button-ghost" id="est-back-2" type="button">← Back</button>
+                            <button class="button button-primary" id="est-next-2" type="button" disabled>See Full Estimate →</button>
                         </div>
                     </div>
 
-                    <!-- Step 4: Result -->
-                    <div class="est-step" id="est-step-4">
+                    <!-- Step 3: Result -->
+                    <div class="est-step" id="est-step-3">
                         <div class="est-result">
                             <div class="est-result-label">Your Ballpark Estimate</div>
-                            <div class="est-result-service" id="est-res-service">—</div>
-                            <div class="est-result-range" id="est-res-range">—</div>
-                            <div class="est-result-sub" id="est-res-sub">Based on typical Phoenix metro jobs of this type and size</div>
+                            <div class="est-result-total" id="est-res-total">—</div>
+                            <div class="est-result-meta" id="est-res-meta">—</div>
+
+                            <!-- Service breakdown (shown when multiple services selected) -->
+                            <div class="est-breakdown" id="est-breakdown" hidden>
+                                <div id="est-breakdown-rows"></div>
+                                <div class="est-breakdown-total-row">
+                                    <span class="est-breakdown-total-label">Combined Total</span>
+                                    <span class="est-breakdown-total-range" id="est-breakdown-total">—</span>
+                                </div>
+                            </div>
 
                             <div class="est-result-note" id="est-res-note">
                                 <strong>What this estimate covers</strong>
@@ -510,10 +682,10 @@
                             </div>
 
                             <div class="est-result-ctas">
-                                <a class="button button-primary" href="tel:4802983416">Call Steve for an Exact Quote</a>
+                                <a class="button button-primary" href="tel:4802983416">Call for an Exact Quote</a>
                                 <a class="button button-ghost" href="sms:+14802983416">Text Us Your Details</a>
                             </div>
-                            <button class="est-restart" id="est-restart" type="button">Start over with a different service</button>
+                            <button class="est-restart" id="est-restart" type="button">Start over</button>
                         </div>
 
                         <p class="est-disclaimer">This estimate is a planning guide, not a firm price. Your actual quote depends on exact square footage, access, stain type, and surface condition. Steve will confirm a real number after a quick conversation.</p>
@@ -531,11 +703,11 @@
                         <span class="eyebrow">How This Works</span>
                         <h2>A ballpark you can actually plan around.</h2>
                         <p>Most people just want to know if a job is going to cost $200 or $2,000 before they bother calling. This estimator gives you that honest range based on hundreds of real Phoenix metro jobs.</p>
-                        <p>When you're ready, call or text Steve at (480) 298-3416. He'll confirm a real price in about five minutes — usually without needing a site visit.</p>
+                        <p>When you're ready, call or text (480) 298-3416. We'll confirm a real price in about five minutes — usually without needing a site visit.</p>
                         <ul class="feature-list" style="margin-top:20px;">
                             <li>No email required, no account, no forms</li>
-                            <li>Ranges based on actual Clean Surface jobs</li>
-                            <li>Steve adjusts for access, stain type, and exact size</li>
+                            <li>Select multiple services and see a combined total</li>
+                            <li>Drag the slider to see the range update live</li>
                             <li>Driveway cleaning includes a written money-back guarantee option</li>
                         </ul>
                     </div>
@@ -560,7 +732,7 @@
         <!-- CTA -->
         <section class="cta-banner">
             <h2>Ready to book instead of estimate?</h2>
-            <p>Call Steve directly at (480) 298-3416. He picks up, asks a few quick questions, and gives you a real number — usually in under five minutes.</p>
+            <p>Call (480) 298-3416. We'll ask a few quick questions and give you a real number — usually in under five minutes.</p>
             <div class="actions">
                 <a class="button button-primary" href="tel:4802983416">Call (480) 298-3416</a>
                 <a class="button button-ghost" href="/contact/">Request a Quote Online</a>
@@ -574,7 +746,7 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <img src="/assets/images/logo.png" alt="Clean Surface Pressure Washing">
-                    <p>Family-owned exterior cleaning for Phoenix metro homes and businesses. Steve Tersakian leads every job — licensed, insured, and backed by a satisfaction guarantee.</p>
+                    <p>Family-owned exterior cleaning for Phoenix metro homes and businesses. Licensed, insured, and backed by a written satisfaction guarantee on every job.</p>
                 </div>
                 <div class="footer-col">
                     <h4>Services</h4>
@@ -624,14 +796,28 @@
     <script>
         document.querySelectorAll('[data-year]').forEach(el => el.textContent = new Date().getFullYear());
 
-        // ── Estimator Data ────────────────────────────────────────────
+        // ── Pricing Data ──────────────────────────────────────────────
+        // small/medium/large map to ~800 / 2000 / 4500 sq ft thresholds respectively
         const PRICING = {
             house:      { label: 'House Washing',        small: [325,475],  medium: [475,725],   large: [725,1100],  note: 'Soft washing for stucco, painted exteriors, trim, and Arizona facades. Removes dust, hard-water spots, and algae buildup without blasting the finish.' },
             driveway:   { label: 'Driveway Cleaning',    small: [175,275],  medium: [275,425],   large: [425,650],   note: 'Concrete cleaning for oil stains, rust, tire marks, and mineral buildup. Driveway quotes can include a written money-back guarantee when Steve recommends a specific treatment.' },
-            patio:      { label: 'Patio / Pool Deck',    small: [200,325],  medium: [325,550],   large: [550,875],   note: 'Patio and pool deck cleaning focuses on outdoor living areas — pavers, flagstone, travertine, and concrete decks. Helps surfaces feel safer and look ready to use again.' },
+            patio:      { label: 'Patio / Pool Deck',    small: [200,325],  medium: [325,550],   large: [550,875],   note: 'Patio and pool deck cleaning for pavers, flagstone, travertine, and concrete decks. Helps surfaces feel safer and look ready to use again.' },
             commercial: { label: 'Commercial Washing',   small: [350,700],  medium: [700,1450],  large: [1450,3200], note: 'Commercial pricing changes quickly based on square footage, surface access, and the amount of grease or foot traffic. Includes storefronts, walkways, and dumpster pads.' },
             steam:      { label: 'Hot-Water Steam',      small: [275,475],  medium: [475,850],   large: [850,1600],  note: '240°F steam for gum, grease, oil, and stubborn buildup that cold water won\'t touch. Commonly used on restaurant pads, loading docks, and heavily stained driveways.' },
             windows:    { label: 'Window Cleaning',      small: [175,300],  medium: [300,550],   large: [550,900],   note: 'Residential and commercial windows — glass, frames, tracks, sills, and screens. Pricing changes most based on pane count, access, and interior vs exterior scope.' }
+        };
+
+        // Sq ft breakpoints: [smallThreshold, largeThreshold]
+        // Below smallThreshold → small tier pricing
+        // Above largeThreshold → large tier pricing
+        // Between → linear interpolation
+        const SQ_FT_BREAKS = {
+            house:      [900,  3500],
+            driveway:   [450,  1800],
+            patio:      [350,  1500],
+            commercial: [1000, 4500],
+            steam:      [350,  1800],
+            windows:    [900,  3500]
         };
 
         const CONDITION_FACTOR = {
@@ -639,21 +825,66 @@
             moderate: [1.08, 1.18],
             heavy:    [1.20, 1.38]
         };
-
-        const SIZE_LABEL = { small: 'Small area', medium: 'Full property', large: 'Large / multiple surfaces' };
-        const CONDITION_LABEL = { light: 'light buildup', moderate: 'moderate staining', heavy: 'heavy staining / grease' };
+        const CONDITION_LABEL = {
+            light: 'light buildup',
+            moderate: 'moderate staining',
+            heavy: 'heavy staining / grease'
+        };
 
         function roundTo25(n) { return Math.round(n / 25) * 25; }
         function fmt(n) { return '$' + n.toLocaleString('en-US'); }
 
         // ── State ─────────────────────────────────────────────────────
-        let sel = { service: null, size: null, condition: null };
+        let sel = { services: [], sqft: 1500, condition: null };
+
+        // ── Price Calculation ─────────────────────────────────────────
+        function interpolateServicePrice(serviceKey, sqft) {
+            const p = PRICING[serviceKey];
+            const [breakSmall, breakLarge] = SQ_FT_BREAKS[serviceKey];
+            let low, high;
+            if (sqft <= breakSmall) {
+                // At or below small threshold — use small range, scale down for very small areas
+                const t = Math.max(0.6, sqft / breakSmall);
+                low  = p.small[0] * t;
+                high = p.small[1] * t;
+            } else if (sqft >= breakLarge) {
+                // At or above large threshold — use large range, allow slight extrapolation
+                const over = Math.min((sqft - breakLarge) / breakLarge, 0.6);
+                low  = p.large[0] * (1 + over * 0.25);
+                high = p.large[1] * (1 + over * 0.25);
+            } else {
+                // Interpolate between small and large
+                const t = (sqft - breakSmall) / (breakLarge - breakSmall);
+                low  = p.small[0] + t * (p.large[0] - p.small[0]);
+                high = p.small[1] + t * (p.large[1] - p.small[1]);
+            }
+            return [low, high];
+        }
+
+        function calcTotal() {
+            if (!sel.condition || sel.services.length === 0) return null;
+            const factor = CONDITION_FACTOR[sel.condition];
+            let totalLow = 0, totalHigh = 0;
+            const breakdown = [];
+            sel.services.forEach(key => {
+                const [rawLow, rawHigh] = interpolateServicePrice(key, sel.sqft);
+                const low  = roundTo25(rawLow  * factor[0]);
+                const high = roundTo25(rawHigh * factor[1]);
+                totalLow  += low;
+                totalHigh += high;
+                breakdown.push({ key, label: PRICING[key].label, low, high });
+            });
+            return {
+                low: roundTo25(totalLow),
+                high: roundTo25(totalHigh),
+                breakdown
+            };
+        }
 
         // ── Step Navigation ───────────────────────────────────────────
         function showStep(n) {
             document.querySelectorAll('.est-step').forEach(s => s.classList.remove('active'));
             document.getElementById('est-step-' + n).classList.add('active');
-
             document.querySelectorAll('.est-progress-step').forEach(s => {
                 const sn = Number(s.dataset.step);
                 s.classList.remove('active', 'done');
@@ -662,49 +893,136 @@
             });
         }
 
-        // ── Card Selection ────────────────────────────────────────────
-        function bindCards(selector, stateKey, nextBtn) {
-            document.querySelectorAll(selector).forEach(card => {
-                card.addEventListener('click', () => {
-                    document.querySelectorAll(selector).forEach(c => c.classList.remove('selected'));
-                    card.classList.add('selected');
-                    sel[stateKey] = card.dataset[stateKey];
-                    document.getElementById(nextBtn).disabled = false;
-                });
-            });
+        // ── Live Preview Update ───────────────────────────────────────
+        function updateLivePreview() {
+            const result = calcTotal();
+            const preview = document.getElementById('est-live-preview');
+            if (!result) {
+                preview.hidden = true;
+                document.getElementById('est-next-2').disabled = true;
+                return;
+            }
+            preview.hidden = false;
+            document.getElementById('est-live-range').textContent = fmt(result.low) + ' – ' + fmt(result.high);
+            document.getElementById('est-live-sub').textContent =
+                sel.sqft.toLocaleString('en-US') + ' sq ft · ' + CONDITION_LABEL[sel.condition];
+
+            const rightLines = result.breakdown.map(b => b.label + ': ' + fmt(b.low) + '–' + fmt(b.high)).join('\n');
+            const rightEl = document.getElementById('est-live-right');
+            rightEl.style.whiteSpace = 'pre-line';
+            rightEl.textContent = result.breakdown.length > 1 ? rightLines : '';
+
+            document.getElementById('est-next-2').disabled = false;
         }
 
-        bindCards('.est-service-card', 'service', 'est-next-1');
-        bindCards('.est-option[data-size]',      'size',      'est-next-2');
-        bindCards('.est-option[data-condition]', 'condition', 'est-next-3');
-
-        // ── Next / Back ───────────────────────────────────────────────
-        document.getElementById('est-next-1').addEventListener('click', () => showStep(2));
-        document.getElementById('est-next-2').addEventListener('click', () => showStep(3));
-        document.getElementById('est-back-2').addEventListener('click', () => showStep(1));
-        document.getElementById('est-back-3').addEventListener('click', () => showStep(2));
-
-        document.getElementById('est-next-3').addEventListener('click', () => {
-            const p = PRICING[sel.service];
-            const range = p[sel.size];
-            const factor = CONDITION_FACTOR[sel.condition];
-            const low  = roundTo25(range[0] * factor[0]);
-            const high = roundTo25(range[1] * factor[1]);
-
-            document.getElementById('est-res-service').textContent =
-                p.label + ' · ' + SIZE_LABEL[sel.size] + ' · ' + CONDITION_LABEL[sel.condition];
-            document.getElementById('est-res-range').textContent = fmt(low) + ' – ' + fmt(high);
-            document.getElementById('est-res-detail').textContent = p.note;
-
-            showStep(4);
+        // ── Service Card Multi-Select ─────────────────────────────────
+        document.querySelectorAll('.est-service-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const key = card.dataset.service;
+                const idx = sel.services.indexOf(key);
+                if (idx === -1) {
+                    sel.services.push(key);
+                    card.classList.add('selected');
+                } else {
+                    sel.services.splice(idx, 1);
+                    card.classList.remove('selected');
+                }
+                const btn = document.getElementById('est-next-1');
+                btn.disabled = sel.services.length === 0;
+                btn.textContent = sel.services.length > 1
+                    ? 'Next: Size & Condition → (' + sel.services.length + ' services)'
+                    : 'Next: Size & Condition →';
+            });
         });
 
+        // ── Condition Card Single-Select ──────────────────────────────
+        document.querySelectorAll('.est-option[data-condition]').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.est-option[data-condition]').forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+                sel.condition = card.dataset.condition;
+                updateLivePreview();
+            });
+        });
+
+        // ── Sq Ft Slider ──────────────────────────────────────────────
+        const slider = document.getElementById('est-sqft');
+        const sqftLabel = document.getElementById('est-sqft-label');
+
+        function updateSliderTrack() {
+            const pct = ((slider.value - slider.min) / (slider.max - slider.min)) * 100;
+            slider.style.background =
+                `linear-gradient(to right, var(--copper) ${pct}%, var(--cream-dark) ${pct}%)`;
+        }
+
+        slider.addEventListener('input', () => {
+            sel.sqft = Number(slider.value);
+            sqftLabel.textContent = sel.sqft.toLocaleString('en-US') + ' sq ft';
+            updateSliderTrack();
+            updateLivePreview();
+        });
+        updateSliderTrack();
+
+        // ── Next / Back ───────────────────────────────────────────────
+        document.getElementById('est-next-1').addEventListener('click', () => {
+            // Reset condition selection when going back to step 2
+            showStep(2);
+        });
+        document.getElementById('est-back-2').addEventListener('click', () => showStep(1));
+
+        document.getElementById('est-next-2').addEventListener('click', () => {
+            const result = calcTotal();
+            if (!result) return;
+
+            // Total display
+            document.getElementById('est-res-total').textContent = fmt(result.low) + ' – ' + fmt(result.high);
+            document.getElementById('est-res-meta').textContent =
+                result.breakdown.map(b => b.label).join(' + ') +
+                ' · ' + sel.sqft.toLocaleString('en-US') + ' sq ft · ' + CONDITION_LABEL[sel.condition];
+
+            // Breakdown (shown only for multiple services)
+            const breakdownEl = document.getElementById('est-breakdown');
+            if (result.breakdown.length > 1) {
+                const rows = result.breakdown.map(b =>
+                    `<div class="est-breakdown-item">
+                        <span class="est-breakdown-name">${b.label}</span>
+                        <span class="est-breakdown-range">${fmt(b.low)} – ${fmt(b.high)}</span>
+                    </div>`
+                ).join('');
+                document.getElementById('est-breakdown-rows').innerHTML = rows;
+                document.getElementById('est-breakdown-total').textContent = fmt(result.low) + ' – ' + fmt(result.high);
+                breakdownEl.hidden = false;
+            } else {
+                breakdownEl.hidden = true;
+            }
+
+            // Note
+            if (result.breakdown.length === 1) {
+                document.getElementById('est-res-detail').textContent = PRICING[result.breakdown[0].key].note;
+            } else {
+                document.getElementById('est-res-detail').textContent =
+                    'Combined estimate for ' + result.breakdown.length + ' services. Steve will confirm each price and any bundle discount during your call.';
+            }
+
+            showStep(3);
+        });
+
+        // ── Restart ───────────────────────────────────────────────────
         document.getElementById('est-restart').addEventListener('click', () => {
-            sel = { service: null, size: null, condition: null };
-            document.querySelectorAll('.est-service-card, .est-option').forEach(c => c.classList.remove('selected'));
+            sel = { services: [], sqft: 1500, condition: null };
+
+            document.querySelectorAll('.est-service-card').forEach(c => c.classList.remove('selected'));
+            document.querySelectorAll('.est-option').forEach(c => c.classList.remove('selected'));
+
+            slider.value = 1500;
+            sqftLabel.textContent = '1,500 sq ft';
+            updateSliderTrack();
+
+            document.getElementById('est-live-preview').hidden = true;
             document.getElementById('est-next-1').disabled = true;
+            document.getElementById('est-next-1').textContent = 'Next: Size & Condition →';
             document.getElementById('est-next-2').disabled = true;
-            document.getElementById('est-next-3').disabled = true;
+
             showStep(1);
         });
     </script>
