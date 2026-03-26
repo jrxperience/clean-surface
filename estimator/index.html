@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pressure Washing Estimator | Get a Price Range | Clean Surface Phoenix</title>
+    <meta name="description" content="Get an instant ballpark price range for pressure washing, house washing, driveway cleaning, and more across the Phoenix metro. No forms, no commitment — just a fast estimate.">
+    <link rel="canonical" href="https://www.cleansurfacepressurewashing.com/estimator/">
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <meta name="robots" content="index, follow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <style>
+        /* ── Estimator Widget ─────────────────────────────── */
+        .estimator-wrap {
+            max-width: 780px;
+            margin: 0 auto;
+        }
+
+        /* Progress bar */
+        .est-progress {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            margin-bottom: 40px;
+        }
+        .est-progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            position: relative;
+        }
+        .est-progress-step + .est-progress-step::before {
+            content: '';
+            position: absolute;
+            right: 50%;
+            top: 18px;
+            left: -50%;
+            height: 2px;
+            background: var(--cream-dark);
+            transition: background 0.3s;
+        }
+        .est-progress-step.done + .est-progress-step::before,
+        .est-progress-step.active + .est-progress-step::before {
+            background: var(--copper);
+        }
+        .est-progress-dot {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--cream-alt);
+            border: 2px solid var(--cream-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--muted);
+            transition: all 0.3s;
+            position: relative;
+            z-index: 1;
+        }
+        .est-progress-step.done .est-progress-dot {
+            background: var(--copper);
+            border-color: var(--copper);
+            color: #fff;
+        }
+        .est-progress-step.active .est-progress-dot {
+            background: var(--charcoal);
+            border-color: var(--copper);
+            color: var(--copper);
+        }
+        .est-progress-label {
+            margin-top: 8px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        .est-progress-step.active .est-progress-label {
+            color: var(--charcoal);
+        }
+        .est-progress-step.done .est-progress-label {
+            color: var(--copper);
+        }
+
+        /* Steps */
+        .est-step { display: none; animation: estFade 0.3s ease; }
+        .est-step.active { display: block; }
+        @keyframes estFade {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .est-step-title {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--charcoal);
+            margin-bottom: 6px;
+        }
+        .est-step-hint {
+            font-size: 0.9rem;
+            color: var(--muted);
+            margin-bottom: 28px;
+        }
+
+        /* Service cards grid */
+        .est-service-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-bottom: 32px;
+        }
+        @media (max-width: 600px) {
+            .est-service-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        .est-service-card {
+            border: 2px solid var(--cream-dark);
+            background: var(--cream);
+            border-radius: 8px;
+            padding: 20px 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            user-select: none;
+            position: relative;
+        }
+        .est-service-card:hover {
+            border-color: var(--copper-light);
+            background: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(184,115,42,0.12);
+        }
+        .est-service-card.selected {
+            border-color: var(--copper);
+            background: #fff;
+            box-shadow: 0 4px 16px rgba(184,115,42,0.15);
+        }
+        .est-service-card.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 8px; right: 10px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--copper);
+        }
+        .est-svc-icon {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .est-svc-name {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            line-height: 1.3;
+        }
+        .est-svc-range {
+            font-size: 0.72rem;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        /* Option pills (size + condition) */
+        .est-options {
+            display: flex;
+            gap: 14px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+        .est-option {
+            flex: 1;
+            min-width: 140px;
+            border: 2px solid var(--cream-dark);
+            background: var(--cream);
+            border-radius: 8px;
+            padding: 20px 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            user-select: none;
+            position: relative;
+        }
+        .est-option:hover {
+            border-color: var(--copper-light);
+            background: #fff;
+            transform: translateY(-2px);
+        }
+        .est-option.selected {
+            border-color: var(--copper);
+            background: #fff;
+            box-shadow: 0 4px 16px rgba(184,115,42,0.15);
+        }
+        .est-option.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 8px; right: 10px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--copper);
+        }
+        .est-option-title {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--charcoal);
+            margin-bottom: 4px;
+        }
+        .est-option-desc {
+            font-size: 0.78rem;
+            color: var(--muted);
+            line-height: 1.4;
+        }
+
+        /* Nav buttons */
+        .est-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        /* Result panel */
+        .est-result {
+            background: var(--charcoal);
+            border-radius: 12px;
+            padding: 48px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .est-result::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(184,115,42,0.25) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .est-result-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--copper-light);
+            margin-bottom: 16px;
+        }
+        .est-result-service {
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            color: rgba(247,243,237,0.7);
+            margin-bottom: 12px;
+        }
+        .est-result-range {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--cream);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        @media (max-width: 480px) {
+            .est-result-range { font-size: 2.6rem; }
+        }
+        .est-result-sub {
+            font-size: 0.82rem;
+            color: rgba(247,243,237,0.55);
+            margin-bottom: 32px;
+        }
+        .est-result-note {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 6px;
+            padding: 14px 18px;
+            font-size: 0.82rem;
+            color: rgba(247,243,237,0.7);
+            margin-bottom: 28px;
+            text-align: left;
+            line-height: 1.6;
+        }
+        .est-result-note strong {
+            color: var(--copper-light);
+            display: block;
+            margin-bottom: 4px;
+        }
+        .est-result-ctas {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .est-restart {
+            margin-top: 20px;
+            font-size: 0.8rem;
+            color: rgba(247,243,237,0.4);
+            cursor: pointer;
+            background: none;
+            border: none;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            padding: 0;
+            transition: color 0.2s;
+        }
+        .est-restart:hover { color: var(--copper-light); }
+
+        /* Disclaimer */
+        .est-disclaimer {
+            margin-top: 20px;
+            font-size: 0.75rem;
+            color: var(--muted);
+            text-align: center;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <div class="topbar">
+        <div class="container">
+            <span>Family-owned · Phoenix metro · Licensed &amp; insured · 7-day satisfaction promise</span>
+            <a href="tel:4802983416">☎ (480) 298-3416</a>
+        </div>
+    </div>
+
+    <header class="site-header">
+        <div class="container nav-shell">
+            <a class="brand" href="/">
+                <img src="/assets/images/logo.png" alt="Clean Surface Pressure Washing">
+                <span class="brand-copy">
+                    <small>Family-owned since 2020</small>
+                    <strong>Clean Surface Pressure Washing</strong>
+                </span>
+            </a>
+            <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+            <nav aria-label="Primary">
+                <ul class="menu" id="menu">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/services/">Services</a></li>
+                    <li><a href="/service-areas/">Service Areas</a></li>
+                    <li><a href="/gallery/">Gallery</a></li>
+                    <li><a href="/faqs/">FAQs</a></li>
+                    <li><a href="/contact/">Contact</a></li>
+                    <li><a class="button button-primary" href="tel:4802983416">Call for a Quote</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main">
+
+        <!-- Page Hero -->
+        <section class="page-hero">
+            <div class="container">
+                <nav class="breadcrumb" aria-label="Breadcrumb">
+                    <ol>
+                        <li><a href="/">Home</a></li>
+                        <li>Estimator</li>
+                    </ol>
+                </nav>
+                <div class="page-hero-copy">
+                    <span class="eyebrow">Instant Estimate</span>
+                    <h1>Get a ballpark price in 30 seconds.</h1>
+                    <p>Pick your service, size, and condition — we'll show you a realistic range based on real Phoenix metro jobs. No forms, no commitment.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Estimator -->
+        <section class="section section-alt">
+            <div class="container">
+                <div class="estimator-wrap">
+
+                    <!-- Progress -->
+                    <div class="est-progress" id="est-progress" aria-label="Estimator progress">
+                        <div class="est-progress-step active" data-step="1">
+                            <div class="est-progress-dot">1</div>
+                            <span class="est-progress-label">Service</span>
+                        </div>
+                        <div class="est-progress-step" data-step="2">
+                            <div class="est-progress-dot">2</div>
+                            <span class="est-progress-label">Size</span>
+                        </div>
+                        <div class="est-progress-step" data-step="3">
+                            <div class="est-progress-dot">3</div>
+                            <span class="est-progress-label">Condition</span>
+                        </div>
+                        <div class="est-progress-step" data-step="4">
+                            <div class="est-progress-dot">✦</div>
+                            <span class="est-progress-label">Estimate</span>
+                        </div>
+                    </div>
+
+                    <!-- Step 1: Service -->
+                    <div class="est-step active" id="est-step-1">
+                        <div class="est-step-title">What needs cleaning?</div>
+                        <p class="est-step-hint">Pick the service that best matches your job. You can always ask Steve about bundling multiple surfaces.</p>
+
+                        <div class="est-service-grid" role="group" aria-label="Select a service">
+                            <button class="est-service-card" data-service="house" type="button">
+                                <span class="est-svc-icon">🏠</span>
+                                <span class="est-svc-name">House Washing</span>
+                                <span class="est-svc-range">Stucco, paint, trim</span>
+                            </button>
+                            <button class="est-service-card" data-service="driveway" type="button">
+                                <span class="est-svc-icon">🛣️</span>
+                                <span class="est-svc-name">Driveway Cleaning</span>
+                                <span class="est-svc-range">Oil, rust, concrete</span>
+                            </button>
+                            <button class="est-service-card" data-service="patio" type="button">
+                                <span class="est-svc-icon">🏊</span>
+                                <span class="est-svc-name">Patio / Pool Deck</span>
+                                <span class="est-svc-range">Pavers, flagstone, concrete</span>
+                            </button>
+                            <button class="est-service-card" data-service="commercial" type="button">
+                                <span class="est-svc-icon">🏢</span>
+                                <span class="est-svc-name">Commercial</span>
+                                <span class="est-svc-range">Storefronts, walkways</span>
+                            </button>
+                            <button class="est-service-card" data-service="steam" type="button">
+                                <span class="est-svc-icon">♨️</span>
+                                <span class="est-svc-name">Hot-Water Steam</span>
+                                <span class="est-svc-range">Grease, gum, heavy buildup</span>
+                            </button>
+                            <button class="est-service-card" data-service="windows" type="button">
+                                <span class="est-svc-icon">🪟</span>
+                                <span class="est-svc-name">Window Cleaning</span>
+                                <span class="est-svc-range">Residential &amp; commercial</span>
+                            </button>
+                        </div>
+
+                        <div class="est-nav">
+                            <span></span>
+                            <button class="button button-primary" id="est-next-1" type="button" disabled>Next: Choose Size →</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Size -->
+                    <div class="est-step" id="est-step-2">
+                        <div class="est-step-title">How much needs cleaning?</div>
+                        <p class="est-step-hint">Think about the total area involved, not exact square footage.</p>
+
+                        <div class="est-options" role="group" aria-label="Select property size">
+                            <button class="est-option" data-size="small" type="button">
+                                <div class="est-option-title">Small</div>
+                                <div class="est-option-desc">One focused area — just the driveway, front of the house, or a small patio.</div>
+                            </button>
+                            <button class="est-option" data-size="medium" type="button">
+                                <div class="est-option-title">Medium</div>
+                                <div class="est-option-desc">A full home or a couple of surfaces in one visit — typical residential job.</div>
+                            </button>
+                            <button class="est-option" data-size="large" type="button">
+                                <div class="est-option-title">Large</div>
+                                <div class="est-option-desc">Bigger property, multiple surfaces, or a job requiring more time and setup.</div>
+                            </button>
+                        </div>
+
+                        <div class="est-nav">
+                            <button class="button button-ghost" id="est-back-2" type="button">← Back</button>
+                            <button class="button button-primary" id="est-next-2" type="button" disabled>Next: Condition →</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Condition -->
+                    <div class="est-step" id="est-step-3">
+                        <div class="est-step-title">How dirty does it look?</div>
+                        <p class="est-step-hint">Go with what you can see — no technical terms needed.</p>
+
+                        <div class="est-options" role="group" aria-label="Select surface condition">
+                            <button class="est-option" data-condition="light" type="button">
+                                <div class="est-option-title">Light</div>
+                                <div class="est-option-desc">Mostly dust and weathering — routine maintenance with no major stains.</div>
+                            </button>
+                            <button class="est-option" data-condition="moderate" type="button">
+                                <div class="est-option-title">Moderate</div>
+                                <div class="est-option-desc">Dingy or patchy — some visible stains or dirty areas that stand out.</div>
+                            </button>
+                            <button class="est-option" data-condition="heavy" type="button">
+                                <div class="est-option-title">Heavy</div>
+                                <div class="est-option-desc">Obvious staining, grease, hard-water marks, or buildup that's been sitting a while.</div>
+                            </button>
+                        </div>
+
+                        <div class="est-nav">
+                            <button class="button button-ghost" id="est-back-3" type="button">← Back</button>
+                            <button class="button button-primary" id="est-next-3" type="button" disabled>See My Estimate →</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Result -->
+                    <div class="est-step" id="est-step-4">
+                        <div class="est-result">
+                            <div class="est-result-label">Your Ballpark Estimate</div>
+                            <div class="est-result-service" id="est-res-service">—</div>
+                            <div class="est-result-range" id="est-res-range">—</div>
+                            <div class="est-result-sub" id="est-res-sub">Based on typical Phoenix metro jobs of this type and size</div>
+
+                            <div class="est-result-note" id="est-res-note">
+                                <strong>What this estimate covers</strong>
+                                <span id="est-res-detail">Standard cleaning for this service type.</span>
+                            </div>
+
+                            <div class="est-result-ctas">
+                                <a class="button button-primary" href="tel:4802983416">Call Steve for an Exact Quote</a>
+                                <a class="button button-ghost" href="sms:+14802983416">Text Us Your Details</a>
+                            </div>
+                            <button class="est-restart" id="est-restart" type="button">Start over with a different service</button>
+                        </div>
+
+                        <p class="est-disclaimer">This estimate is a planning guide, not a firm price. Your actual quote depends on exact square footage, access, stain type, and surface condition. Steve will confirm a real number after a quick conversation.</p>
+                    </div>
+
+                </div><!-- /estimator-wrap -->
+            </div>
+        </section>
+
+        <!-- Why Use the Estimator -->
+        <section class="section">
+            <div class="container">
+                <div class="split">
+                    <div class="split-copy">
+                        <span class="eyebrow">How This Works</span>
+                        <h2>A ballpark you can actually plan around.</h2>
+                        <p>Most people just want to know if a job is going to cost $200 or $2,000 before they bother calling. This estimator gives you that honest range based on hundreds of real Phoenix metro jobs.</p>
+                        <p>When you're ready, call or text Steve at (480) 298-3416. He'll confirm a real price in about five minutes — usually without needing a site visit.</p>
+                        <ul class="feature-list" style="margin-top:20px;">
+                            <li>No email required, no account, no forms</li>
+                            <li>Ranges based on actual Clean Surface jobs</li>
+                            <li>Steve adjusts for access, stain type, and exact size</li>
+                            <li>Driveway cleaning includes a written money-back guarantee option</li>
+                        </ul>
+                    </div>
+                    <div class="split-copy">
+                        <span class="eyebrow">Pricing Factors</span>
+                        <h2>What affects the final number.</h2>
+                        <ul class="feature-list" style="margin-top:12px;">
+                            <li><strong>Surface type</strong> — Stucco, pavers, and concrete all have different methods and costs</li>
+                            <li><strong>Total area</strong> — More square footage means more time and materials</li>
+                            <li><strong>Buildup severity</strong> — Heavy oil, rust, or grease may need pretreatment or steam</li>
+                            <li><strong>Access</strong> — Gated properties, high rooflines, or tight spaces affect crew setup</li>
+                            <li><strong>Bundling</strong> — Combining services in one visit often reduces the per-service cost</li>
+                        </ul>
+                        <div class="actions" style="margin-top:28px;">
+                            <a class="button button-primary" href="tel:4802983416">Call for an Exact Quote</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="cta-banner">
+            <h2>Ready to book instead of estimate?</h2>
+            <p>Call Steve directly at (480) 298-3416. He picks up, asks a few quick questions, and gives you a real number — usually in under five minutes.</p>
+            <div class="actions">
+                <a class="button button-primary" href="tel:4802983416">Call (480) 298-3416</a>
+                <a class="button button-ghost" href="/contact/">Request a Quote Online</a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="/assets/images/logo.png" alt="Clean Surface Pressure Washing">
+                    <p>Family-owned exterior cleaning for Phoenix metro homes and businesses. Steve Tersakian leads every job — licensed, insured, and backed by a satisfaction guarantee.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="/services/house-washing/">House Washing</a></li>
+                        <li><a href="/services/driveway-cleaning/">Driveway Cleaning</a></li>
+                        <li><a href="/services/commercial-pressure-washing/">Commercial</a></li>
+                        <li><a href="/services/hot-water-steam-cleaning/">Steam Cleaning</a></li>
+                        <li><a href="/services/window-cleaning/">Window Cleaning</a></li>
+                        <li><a href="/services/">All Services</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Service Areas</h4>
+                    <ul>
+                        <li><a href="/phoenix/">Phoenix</a></li>
+                        <li><a href="/scottsdale/">Scottsdale</a></li>
+                        <li><a href="/mesa/">Mesa</a></li>
+                        <li><a href="/gilbert/">Gilbert</a></li>
+                        <li><a href="/chandler/">Chandler</a></li>
+                        <li><a href="/service-areas/">All Areas</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col footer-contact">
+                    <h4>Contact</h4>
+                    <p>Call or text Steve directly:</p>
+                    <p><a href="tel:4802983416">(480) 298-3416</a></p>
+                    <p>4108 W Windrose Dr<br>Phoenix, AZ 85029</p>
+                    <p>7-day availability · Fast quotes</p>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="footer-bottom">
+                <span>© <span data-year></span> Clean Surface Pressure Washing LLC · Phoenix, AZ</span>
+                <span><a href="/terms/">Terms</a> · <a href="/privacy/">Privacy Policy</a></span>
+            </div>
+        </div>
+    </footer>
+
+    <div class="mobile-actions" aria-label="Quick contact">
+        <a class="text-btn" href="sms:+14802983416">Text Us</a>
+        <a class="call-btn" href="tel:4802983416">Call Now</a>
+    </div>
+
+    <script src="/assets/js/site.js?v=4"></script>
+    <script>
+        document.querySelectorAll('[data-year]').forEach(el => el.textContent = new Date().getFullYear());
+
+        // ── Estimator Data ────────────────────────────────────────────
+        const PRICING = {
+            house:      { label: 'House Washing',        small: [325,475],  medium: [475,725],   large: [725,1100],  note: 'Soft washing for stucco, painted exteriors, trim, and Arizona facades. Removes dust, hard-water spots, and algae buildup without blasting the finish.' },
+            driveway:   { label: 'Driveway Cleaning',    small: [175,275],  medium: [275,425],   large: [425,650],   note: 'Concrete cleaning for oil stains, rust, tire marks, and mineral buildup. Driveway quotes can include a written money-back guarantee when Steve recommends a specific treatment.' },
+            patio:      { label: 'Patio / Pool Deck',    small: [200,325],  medium: [325,550],   large: [550,875],   note: 'Patio and pool deck cleaning focuses on outdoor living areas — pavers, flagstone, travertine, and concrete decks. Helps surfaces feel safer and look ready to use again.' },
+            commercial: { label: 'Commercial Washing',   small: [350,700],  medium: [700,1450],  large: [1450,3200], note: 'Commercial pricing changes quickly based on square footage, surface access, and the amount of grease or foot traffic. Includes storefronts, walkways, and dumpster pads.' },
+            steam:      { label: 'Hot-Water Steam',      small: [275,475],  medium: [475,850],   large: [850,1600],  note: '240°F steam for gum, grease, oil, and stubborn buildup that cold water won\'t touch. Commonly used on restaurant pads, loading docks, and heavily stained driveways.' },
+            windows:    { label: 'Window Cleaning',      small: [175,300],  medium: [300,550],   large: [550,900],   note: 'Residential and commercial windows — glass, frames, tracks, sills, and screens. Pricing changes most based on pane count, access, and interior vs exterior scope.' }
+        };
+
+        const CONDITION_FACTOR = {
+            light:    [1.00, 1.05],
+            moderate: [1.08, 1.18],
+            heavy:    [1.20, 1.38]
+        };
+
+        const SIZE_LABEL = { small: 'Small area', medium: 'Full property', large: 'Large / multiple surfaces' };
+        const CONDITION_LABEL = { light: 'light buildup', moderate: 'moderate staining', heavy: 'heavy staining / grease' };
+
+        function roundTo25(n) { return Math.round(n / 25) * 25; }
+        function fmt(n) { return '$' + n.toLocaleString('en-US'); }
+
+        // ── State ─────────────────────────────────────────────────────
+        let sel = { service: null, size: null, condition: null };
+
+        // ── Step Navigation ───────────────────────────────────────────
+        function showStep(n) {
+            document.querySelectorAll('.est-step').forEach(s => s.classList.remove('active'));
+            document.getElementById('est-step-' + n).classList.add('active');
+
+            document.querySelectorAll('.est-progress-step').forEach(s => {
+                const sn = Number(s.dataset.step);
+                s.classList.remove('active', 'done');
+                if (sn < n) s.classList.add('done');
+                else if (sn === n) s.classList.add('active');
+            });
+        }
+
+        // ── Card Selection ────────────────────────────────────────────
+        function bindCards(selector, stateKey, nextBtn) {
+            document.querySelectorAll(selector).forEach(card => {
+                card.addEventListener('click', () => {
+                    document.querySelectorAll(selector).forEach(c => c.classList.remove('selected'));
+                    card.classList.add('selected');
+                    sel[stateKey] = card.dataset[stateKey];
+                    document.getElementById(nextBtn).disabled = false;
+                });
+            });
+        }
+
+        bindCards('.est-service-card', 'service', 'est-next-1');
+        bindCards('.est-option[data-size]',      'size',      'est-next-2');
+        bindCards('.est-option[data-condition]', 'condition', 'est-next-3');
+
+        // ── Next / Back ───────────────────────────────────────────────
+        document.getElementById('est-next-1').addEventListener('click', () => showStep(2));
+        document.getElementById('est-next-2').addEventListener('click', () => showStep(3));
+        document.getElementById('est-back-2').addEventListener('click', () => showStep(1));
+        document.getElementById('est-back-3').addEventListener('click', () => showStep(2));
+
+        document.getElementById('est-next-3').addEventListener('click', () => {
+            const p = PRICING[sel.service];
+            const range = p[sel.size];
+            const factor = CONDITION_FACTOR[sel.condition];
+            const low  = roundTo25(range[0] * factor[0]);
+            const high = roundTo25(range[1] * factor[1]);
+
+            document.getElementById('est-res-service').textContent =
+                p.label + ' · ' + SIZE_LABEL[sel.size] + ' · ' + CONDITION_LABEL[sel.condition];
+            document.getElementById('est-res-range').textContent = fmt(low) + ' – ' + fmt(high);
+            document.getElementById('est-res-detail').textContent = p.note;
+
+            showStep(4);
+        });
+
+        document.getElementById('est-restart').addEventListener('click', () => {
+            sel = { service: null, size: null, condition: null };
+            document.querySelectorAll('.est-service-card, .est-option').forEach(c => c.classList.remove('selected'));
+            document.getElementById('est-next-1').disabled = true;
+            document.getElementById('est-next-2').disabled = true;
+            document.getElementById('est-next-3').disabled = true;
+            showStep(1);
+        });
+    </script>
+</body>
+</html>
