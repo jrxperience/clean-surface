@@ -420,7 +420,6 @@ function buildLivePricePanel(formId) {
 
 function buildCardField(formId, scale, defaultIndex, stepNum) {
     const config = getScaleConfig(scale);
-    const stepLabel = String(stepNum || 0).padStart(2, "0");
     const steps = config.steps || [];
 
     const cards = steps.map(function (step, index) {
@@ -438,7 +437,7 @@ function buildCardField(formId, scale, defaultIndex, stepNum) {
     return (
         '<div class="est-step">' +
             '<div class="est-step-header">' +
-                '<span class="est-step-num" aria-hidden="true">' + stepLabel + '</span>' +
+                (stepNum ? '<span class="est-step-num" aria-hidden="true">' + String(stepNum).padStart(2, "0") + '</span>' : "") +
                 '<span class="est-step-label">' + escapeHtml(config.fieldLabel) + '</span>' +
             '</div>' +
             '<input type="hidden" name="' + scale + 'Level" value="' + String(defaultIndex) + '">' +
@@ -452,7 +451,6 @@ function buildCardField(formId, scale, defaultIndex, stepNum) {
 
 function buildPillField(formId, scale, defaultIndex, stepNum) {
     const config = getScaleConfig(scale);
-    const stepLabel = String(stepNum || 0).padStart(2, "0");
     const steps = config.steps || [];
 
     const pills = steps.map(function (step, index) {
@@ -468,7 +466,7 @@ function buildPillField(formId, scale, defaultIndex, stepNum) {
     return (
         '<div class="est-step est-step-row">' +
             '<div class="est-step-header">' +
-                '<span class="est-step-num" aria-hidden="true">' + stepLabel + '</span>' +
+                (stepNum ? '<span class="est-step-num" aria-hidden="true">' + String(stepNum).padStart(2, "0") + '</span>' : "") +
                 '<span class="est-step-label">' + escapeHtml(config.fieldLabel) + '</span>' +
             '</div>' +
             '<input type="hidden" name="' + scale + 'Level" value="' + String(defaultIndex) + '">' +
@@ -506,6 +504,17 @@ function buildAddonsSection(formId) {
     );
 }
 
+function goToWizardStep(form, stepNum) {
+    form.querySelectorAll(".est-wizard-panel").forEach(function (panel) {
+        panel.classList.toggle("is-active", Number(panel.dataset.wizardStep) === stepNum);
+    });
+    form.querySelectorAll(".est-progress-step").forEach(function (btn) {
+        const target = Number(btn.dataset.gotoStep);
+        btn.classList.toggle("is-active", target === stepNum);
+        btn.classList.toggle("is-done", target < stepNum);
+    });
+}
+
 function renderEstimatorForm(form, index) {
     const prefill = readEstimatorPrefill();
     const existingService = form.dataset.service || prefill.service || "";
@@ -528,30 +537,55 @@ function renderEstimatorForm(form, index) {
             '<p>Select your service and job details. The range updates live as you make choices.</p>' +
         "</div>" +
         buildLivePricePanel(formId) +
-        '<div class="estimator-section">' +
-            buildCardField(formId, "service", serviceIndex, 1) +
-            buildPillField(formId, "size", sizeIndex, 2) +
-            buildPillField(formId, "condition", conditionIndex, 3) +
+        '<nav class="est-progress" aria-label="Estimator steps">' +
+            '<button type="button" class="est-progress-step is-active" data-goto-step="1">01&nbsp;Service</button>' +
+            '<span class="est-progress-sep" aria-hidden="true">›</span>' +
+            '<button type="button" class="est-progress-step" data-goto-step="2">02&nbsp;Details</button>' +
+            '<span class="est-progress-sep" aria-hidden="true">›</span>' +
+            '<button type="button" class="est-progress-step" data-goto-step="3">03&nbsp;Contact</button>' +
+        '</nav>' +
+        // Panel 1: Service + Size
+        '<div class="est-wizard-panel is-active" data-wizard-step="1">' +
+            buildCardField(formId, "service", serviceIndex) +
+            buildPillField(formId, "size", sizeIndex) +
+            '<div class="est-wizard-nav">' +
+                '<span></span>' +
+                '<button type="button" class="button button-primary est-btn-next" data-next-step="2">Details &rarr;</button>' +
+            '</div>' +
+        '</div>' +
+        // Panel 2: Condition + Add-ons + Area + Timeline
+        '<div class="est-wizard-panel" data-wizard-step="2">' +
+            buildPillField(formId, "condition", conditionIndex) +
             buildAddonsSection(formId) +
-            buildPillField(formId, "area", areaIndex, 4) +
-            buildPillField(formId, "timeline", timelineIndex, 5) +
-            buildPillField(formId, "contact", contactIndex, 6) +
-        "</div>" +
-        '<div class="estimator-section estimator-section-contact">' +
-            '<div class="estimator-section-heading">' +
-                '<span>Your contact info</span>' +
-                '<p>Name and phone or email so the team can send a firm quote.</p>' +
+            buildPillField(formId, "area", areaIndex) +
+            buildPillField(formId, "timeline", timelineIndex) +
+            '<div class="est-wizard-nav">' +
+                '<button type="button" class="button button-secondary est-btn-back" data-back-step="1">&larr; Back</button>' +
+                '<button type="button" class="button button-primary est-btn-next" data-next-step="3">Contact &rarr;</button>' +
+            '</div>' +
+        '</div>' +
+        // Panel 3: Reply preference + contact fields + submit
+        '<div class="est-wizard-panel" data-wizard-step="3">' +
+            buildPillField(formId, "contact", contactIndex) +
+            '<div class="estimator-section estimator-section-contact">' +
+                '<div class="estimator-section-heading">' +
+                    '<span>Your contact info</span>' +
+                    '<p>Name and phone or email so the team can send a firm quote.</p>' +
+                "</div>" +
+                '<div class="field-row">' +
+                    '<div class="field"><label for="' + formId + '-name">Name</label><input id="' + formId + '-name" name="name" type="text" placeholder="First and last name" autocomplete="name" value="' + escapeHtml(prefill.name) + '" required></div>' +
+                    '<div class="field"><label for="' + formId + '-phone">Phone</label><input id="' + formId + '-phone" name="phone" type="tel" placeholder="Best number" autocomplete="tel" value="' + escapeHtml(prefill.phone) + '"></div>' +
+                "</div>" +
+                '<div class="field">' +
+                    '<label for="' + formId + '-email">Email <span class="optional-label">(optional)</span></label>' +
+                    '<input id="' + formId + '-email" name="email" type="email" placeholder="Best email address" autocomplete="email" value="' + escapeHtml(prefill.email) + '">' +
+                "</div>" +
             "</div>" +
-            '<div class="field-row">' +
-                '<div class="field"><label for="' + formId + '-name">Name</label><input id="' + formId + '-name" name="name" type="text" placeholder="First and last name" autocomplete="name" value="' + escapeHtml(prefill.name) + '" required></div>' +
-                '<div class="field"><label for="' + formId + '-phone">Phone</label><input id="' + formId + '-phone" name="phone" type="tel" placeholder="Best number" autocomplete="tel" value="' + escapeHtml(prefill.phone) + '"></div>' +
-            "</div>" +
-            '<div class="field">' +
-                '<label for="' + formId + '-email">Email <span class="optional-label">(optional)</span></label>' +
-                '<input id="' + formId + '-email" name="email" type="email" placeholder="Best email address" autocomplete="email" value="' + escapeHtml(prefill.email) + '">' +
-            "</div>" +
-        "</div>" +
-        '<button class="button button-primary estimator-submit" type="submit">Get My Estimate</button>' +
+            '<div class="est-wizard-nav">' +
+                '<button type="button" class="button button-secondary est-btn-back" data-back-step="2">&larr; Back</button>' +
+                '<button class="button button-primary estimator-submit" type="submit">Get My Estimate</button>' +
+            '</div>' +
+        '</div>' +
         '<p class="quote-note" aria-live="polite"></p>' +
         '<div class="estimate-output" hidden>' +
             '<p class="estimate-kicker">Your ballpark range</p>' +
@@ -609,6 +643,24 @@ function showServiceAddons(form, serviceName) {
 
 function initEstimatorInteractions(form) {
     form.addEventListener("click", function (event) {
+        // Wizard navigation
+        const nextBtn = event.target.closest(".est-btn-next");
+        if (nextBtn) {
+            goToWizardStep(form, Number(nextBtn.dataset.nextStep));
+            return;
+        }
+        const backBtn = event.target.closest(".est-btn-back");
+        if (backBtn) {
+            goToWizardStep(form, Number(backBtn.dataset.backStep));
+            return;
+        }
+        const progressBtn = event.target.closest(".est-progress-step");
+        if (progressBtn) {
+            goToWizardStep(form, Number(progressBtn.dataset.gotoStep));
+            return;
+        }
+
+        // Card / pill selection
         const btn = event.target.closest(".est-card, .est-pill");
         if (!btn) { return; }
 
@@ -913,6 +965,11 @@ document.querySelectorAll(".quote-form").forEach(function (form) {
             }
 
             fillEstimateOutput(form, priceText, summary, bullets);
+
+            // Collapse wizard after submit
+            form.querySelectorAll(".est-wizard-panel").forEach(function (p) { p.classList.remove("is-active"); });
+            const progressNav = form.querySelector(".est-progress");
+            if (progressNav) { progressNav.hidden = true; }
 
             if (note) {
                 note.textContent = copied

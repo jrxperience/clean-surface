@@ -1894,6 +1894,73 @@ figcaption {
     font-weight: 400;
 }
 
+/* ── Wizard progress bar ── */
+.est-progress {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin: 0 0 20px;
+    flex-wrap: wrap;
+}
+
+.est-progress-step {
+    background: none;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font: 500 0.76rem/1 var(--font-sans, "IBM Plex Sans", sans-serif);
+    letter-spacing: 0.03em;
+    color: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    transition: color 0.15s, background 0.15s;
+}
+
+.est-progress-step.is-active {
+    background: rgba(255, 255, 255, 0.13);
+    color: #fff;
+}
+
+.est-progress-step.is-done {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.est-progress-step:hover {
+    color: #fff;
+}
+
+.est-progress-sep {
+    color: rgba(255, 255, 255, 0.28);
+    font-size: 0.9rem;
+    line-height: 1;
+    user-select: none;
+}
+
+/* ── Wizard panels ── */
+.est-wizard-panel {
+    display: none;
+}
+
+.est-wizard-panel.is-active {
+    display: block;
+    animation: estPanelIn 0.22s ease;
+}
+
+@keyframes estPanelIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: none; }
+}
+
+/* ── Wizard nav row (Back / Next buttons) ── */
+.est-wizard-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    gap: 10px;
+}
+
 @media (max-width: 820px) {
     .est-live-range {
         font-size: 1.55rem;
