@@ -393,6 +393,18 @@ function buildEstimate(service, sizeKey, condition) {
     return { config, low, high };
 }
 
+function buildEstimateBySqft(service, sqft, condition) {
+    const config = SERVICE_CONFIG[service] || SERVICE_CONFIG["Pressure washing"];
+    const conditionFactor = CONDITION_FACTORS[condition] || [1.08, 1.18];
+    const n = Math.max(100, Math.min(4000, Number(sqft) || 800));
+    const t = (n - 100) / (4000 - 100);
+    const baseLow  = config.ranges.small[0] + t * (config.ranges.large[0] - config.ranges.small[0]);
+    const baseHigh = config.ranges.small[1] + t * (config.ranges.large[1] - config.ranges.small[1]);
+    const low  = roundToTwentyFive(baseLow  * conditionFactor[0]);
+    const high = roundToTwentyFive(baseHigh * conditionFactor[1]);
+    return { config, low, high };
+}
+
 function findStepIndex(scale, preferredValue) {
     const config = getScaleConfig(scale);
     const normalized = (preferredValue || "").trim().toLowerCase();
@@ -643,7 +655,7 @@ function updateLivePrice(form) {
     serviceIndices.forEach(function (idx) {
         const step = getScaleStep("service", idx);
         if (!step) { return; }
-        const est = buildEstimate(step.value, sizeKey, conditionStep.value);
+        const est = buildEstimateBySqft(step.value, sqft, conditionStep.value);
         totalLow += est.low;
         totalHigh += est.high;
     });
@@ -958,7 +970,7 @@ document.querySelectorAll(".quote-form").forEach(function (form) {
             var totalLow = 0;
             var totalHigh = 0;
             serviceSteps.forEach(function (step) {
-                const est = buildEstimate(step.value, sizeKey, conditionStep.value);
+                const est = buildEstimateBySqft(step.value, sqft, conditionStep.value);
                 totalLow += est.low;
                 totalHigh += est.high;
             });
