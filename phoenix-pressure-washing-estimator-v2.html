@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phoenix Pressure Washing Estimate Widget v2</title>
+  <style>
+    :root {
+      --bg: #eef3f8;
+      --card: #ffffff;
+      --text: #14212b;
+      --muted: #5c6a77;
+      --line: #d9e3ec;
+      --accent: #0f6fff;
+      --accent-dark: #0b57c7;
+      --accent-soft: #eef5ff;
+      --success-bg: #edfff3;
+      --success-border: #bbe6ca;
+      --danger-bg: #fff4f2;
+      --danger-border: #f4c2bc;
+      --warning-bg: #fff8ec;
+      --warning-border: #ffe0a7;
+      --shadow: 0 18px 45px rgba(20, 33, 43, 0.10);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(180deg, #f4f8fc 0%, var(--bg) 100%);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .wrap {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 18px 12px 36px;
+    }
+
+    .hero {
+      margin-bottom: 18px;
+      padding: 6px 2px 0;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(15, 111, 255, 0.08);
+      border: 1px solid rgba(15, 111, 255, 0.12);
+      color: var(--accent-dark);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 0.84rem;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+    }
+
+    .hero h1 {
+      margin: 14px 0 10px;
+      font-size: clamp(2rem, 4.6vw, 3.35rem);
+      line-height: 1.03;
+      letter-spacing: -0.04em;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 840px;
+      font-size: 1rem;
+    }
+
+    .hero-points {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .hero-point {
+      background: rgba(255,255,255,0.76);
+      border: 1px solid rgba(20, 33, 43, 0.06);
+      border-radius: 18px;
+      padding: 12px 14px;
+      box-shadow: 0 10px 24px rgba(20, 33, 43, 0.05);
+    }
+
+    .hero-point strong {
+      display: block;
+      font-size: 0.96rem;
+      margin-bottom: 2px;
+    }
+
+    .hero-point span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.28fr) minmax(300px, 0.72fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(20, 33, 43, 0.06);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .form-card { padding: 20px; }
+    .summary-card {
+      position: sticky;
+      top: 12px;
+      padding: 18px;
+    }
+
+    .section + .section {
+      margin-top: 22px;
+      padding-top: 22px;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-head {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+
+    .step-badge {
+      flex: 0 0 auto;
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-weight: 900;
+      border: 1px solid rgba(15, 111, 255, 0.12);
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: 1.08rem;
+    }
+
+    .helper {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .full { grid-column: 1 / -1; }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    label {
+      font-size: 0.93rem;
+      font-weight: 800;
+    }
+
+    .sub-label {
+      color: var(--muted);
+      font-size: 0.84rem;
+      font-weight: 600;
+      margin-left: 6px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid #c9d4df;
+      border-radius: 15px;
+      padding: 14px;
+      font: inherit;
+      color: var(--text);
+      background: #fff;
+      outline: none;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(15, 111, 255, 0.11);
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .option-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .option {
+      position: relative;
+      min-height: 100%;
+    }
+
+    .option input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .option-box {
+      height: 100%;
+      border: 1px solid #cfdae6;
+      border-radius: 18px;
+      padding: 14px;
+      background: #fff;
+      transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+    }
+
+    .option-box strong {
+      display: block;
+      font-size: 0.95rem;
+      line-height: 1.2;
+      margin-bottom: 3px;
+    }
+
+    .option-box span,
+    .option-box small {
+      color: var(--muted);
+      font-size: 0.87rem;
+      line-height: 1.35;
+      display: block;
+    }
+
+    .option input:checked + .option-box {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      box-shadow: 0 0 0 4px rgba(15, 111, 255, 0.08);
+      transform: translateY(-1px);
+    }
+
+    .inline-toggle {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .size-box {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 14px;
+      background: #fafcfe;
+    }
+
+    .size-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .size-value {
+      font-size: 1.08rem;
+      font-weight: 900;
+    }
+
+    input[type="range"] {
+      padding: 0;
+      border: none;
+      background: transparent;
+      box-shadow: none;
+      accent-color: var(--accent);
+    }
+
+    .scale {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin-top: 4px;
+    }
+
+    .preset-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .preset {
+      border: 1px solid #cfdae6;
+      background: #fff;
+      color: var(--text);
+      border-radius: 14px;
+      padding: 11px 10px;
+      font: inherit;
+      font-size: 0.88rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: border-color 0.18s ease, background 0.18s ease, transform 0.18s ease;
+    }
+
+    .preset:hover,
+    .preset.active {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+    }
+
+    .context-box,
+    .notice,
+    .tip-box,
+    .status,
+    .summary-mini {
+      border-radius: 16px;
+      padding: 13px 14px;
+      font-size: 0.92rem;
+    }
+
+    .context-box {
+      background: #f7fbff;
+      border: 1px solid #dcecff;
+      color: #24496d;
+    }
+
+    .tip-box {
+      background: #f9fbfd;
+      border: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    .price-box {
+      background: linear-gradient(180deg, #f6faff 0%, #eef5ff 100%);
+      border: 1px solid rgba(15, 111, 255, 0.16);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .price-kicker {
+      margin: 0 0 6px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .price {
+      margin: 0;
+      font-weight: 900;
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .price-range {
+      margin: 8px 0 0;
+      color: #0d6a32;
+      font-size: 1rem;
+      font-weight: 800;
+    }
+
+    .summary-mini {
+      margin-top: 14px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(20, 33, 43, 0.06);
+    }
+
+    .summary-mini strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .summary-list {
+      margin: 16px 0 0;
+      list-style: none;
+      padding: 0;
+      display: grid;
+      gap: 9px;
+    }
+
+    .summary-list li {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 0.93rem;
+    }
+
+    .summary-list li span:first-child { color: var(--muted); }
+
+    .notice {
+      margin-top: 14px;
+      background: var(--warning-bg);
+      border: 1px solid var(--warning-border);
+      color: #6f4c00;
+    }
+
+    .cta-box {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    button[type="button"],
+    button[type="submit"] {
+      border: none;
+      border-radius: 15px;
+      padding: 14px 16px;
+      font: inherit;
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease, opacity 0.15s ease;
+    }
+
+    button[type="button"]:hover,
+    button[type="submit"]:hover { transform: translateY(-1px); }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      flex: 1 1 220px;
+    }
+
+    .btn-primary:hover { background: var(--accent-dark); }
+
+    .btn-secondary {
+      background: #edf2f7;
+      color: var(--text);
+      flex: 1 1 160px;
+    }
+
+    .status {
+      display: none;
+      margin-top: 14px;
+      background: var(--success-bg);
+      border: 1px solid var(--success-border);
+      color: #145c2e;
+    }
+
+    .result-panel {
+      display: none;
+      margin-top: 14px;
+      border: 1px solid var(--line);
+      background: #fafcfe;
+      border-radius: 16px;
+      padding: 14px;
+      font-size: 0.91rem;
+    }
+
+    .microcopy,
+    .tiny,
+    .footer-note {
+      color: var(--muted);
+      font-size: 0.89rem;
+      margin: 0;
+    }
+
+    .footer-note { margin-top: 12px; font-size: 0.83rem; }
+
+    .summary-mobile {
+      display: none;
+      margin-bottom: 14px;
+    }
+
+    @media (max-width: 940px) {
+      .grid { grid-template-columns: 1fr; }
+      .summary-card { position: static; }
+      .summary-mobile { display: block; }
+      .summary-desktop { display: none; }
+    }
+
+    @media (max-width: 700px) {
+      .wrap { padding: 12px 10px 28px; }
+      .form-card,
+      .summary-card { padding: 16px; border-radius: 18px; }
+      .hero-points,
+      .field-grid,
+      .option-grid,
+      .inline-toggle,
+      .preset-row { grid-template-columns: 1fr; }
+      .size-top,
+      .summary-list li { align-items: flex-start; flex-direction: column; }
+      .btn-row { flex-direction: column; }
+      button[type="button"],
+      button[type="submit"] { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="eyebrow">Phoenix pressure washing estimator</div>
+      <h1>Fast ballpark estimate. Clear enough to trust. Easy enough to finish.</h1>
+      <p>
+        This version is designed to reduce drop-off on mobile. Customers answer a few obvious questions, see a realistic range, then leave their contact info for an exact quote.
+      </p>
+      <div class="hero-points">
+        <div class="hero-point">
+          <strong>1. Pick the job type</strong>
+          <span>Large tap targets instead of confusing dropdowns where possible.</span>
+        </div>
+        <div class="hero-point">
+          <strong>2. Adjust size only if needed</strong>
+          <span>Quick presets first, slider second.</span>
+        </div>
+        <div class="hero-point">
+          <strong>3. Request the exact quote</strong>
+          <span>Name and phone are enough to maximize completions.</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="summary-mobile card summary-card">
+      <div class="price-box">
+        <p class="price-kicker">Current ballpark</p>
+        <p class="price" id="estimateValueMobile">$195</p>
+        <p class="price-range" id="estimateRangeMobile">Typical range: $165 - $225</p>
+      </div>
+    </div>
+
+    <div class="grid">
+      <section class="card form-card">
+        <form id="estimateForm" novalidate>
+          <div class="section">
+            <div class="section-head">
+              <div class="step-badge">1</div>
+              <div>
+                <h2>What are we cleaning?</h2>
+                <p class="helper">Keep this step visual and obvious. Fewer mental decisions usually means more submitted forms.</p>
+              </div>
+            </div>
+
+            <div class="field-grid">
+              <div class="field full">
+                <label>Primary service</label>
+                <div class="option-grid" id="serviceOptions">
+                  <label class="option">
+                    <input type="radio" name="serviceType" value="house" checked />
+                    <div class="option-box">
+                      <strong>House wash</strong>
+                      <span>Exterior walls, stucco, siding, trim, entry areas.</span>
+                    </div>
+                  </label>
+                  <label class="option">
+                    <input type="radio" name="serviceType" value="driveway" />
+                    <div class="option-box">
+                      <strong>Driveway / concrete</strong>
+                      <span>Driveways, front walkways, garage aprons, pads.</span>
+                    </div>
+                  </label>
+                  <label class="option">
+                    <input type="radio" name="serviceType" value="patio" />
+                    <div class="option-box">
+                      <strong>Patio / pool deck</strong>
+                      <span>Back patios, cool deck, pavers, outdoor living areas.</span>
+                    </div>
+                  </label>
+                  <label class="option">
+                    <input type="radio" name="serviceType" value="commercialPad" />
+                    <div class="option-box">
+                      <strong>Storefront / commercial flatwork</strong>
+                      <span>Entry areas, sidewalks, retail pads, service lanes.</span>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <div class="field">
+                <label>Property type</label>
+                <div class="inline-toggle">
+                  <label class="option">
+                    <input type="radio" name="propertyType" value="residential" checked />
+                    <div class="option-box">
+                      <strong>Residential</strong>
+                      <small>Homes, townhomes, small rentals.</small>
+                    </div>
+                  </label>
+                  <label class="option">
+                    <input type="radio" name="propertyType" value="commercial" />
+                    <div class="option-box">
+                      <strong>Commercial</strong>
+                      <small>Retail, office, restaurants, facilities.</small>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="stories">Height / access</label>
+                <select id="stories" name="stories">
+                  <option value="1">1 story / easy access</option>
+                  <option value="2">2 stories</option>
+                  <option value="3">3+ stories or difficult access</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="context-box" id="serviceHint">
+              <strong>What this usually includes:</strong> Exterior wall washing with normal dust and buildup. Final price can move up if stain treatment, difficult access, or specialty chemistry is needed.
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-head">
+              <div class="step-badge">2</div>
+              <div>
+                <h2>About how big is the job?</h2>
+                <p class="helper">Most customers do better with a quick size shortcut. The slider is there only if they want to fine-tune it.</p>
+              </div>
+            </div>
+
+            <div class="size-box">
+              <div class="size-top">
+                <label for="sizeRange">Estimated cleaned area</label>
+                <div class="size-value" id="sizeLabel">1,500 sq ft</div>
+              </div>
+              <input type="range" id="sizeRange" name="sizeRange" min="400" max="10000" step="100" value="1500" />
+              <div class="scale">
+                <span>400</span>
+                <span>10,000+</span>
+              </div>
+              <div class="preset-row">
+                <button class="preset" type="button" data-size="900">Small</button>
+                <button class="preset active" type="button" data-size="1500">Medium</button>
+                <button class="preset" type="button" data-size="2800">Large</button>
+                <button class="preset" type="button" data-size="4500">XL</button>
+              </div>
+            </div>
+
+            <p class="tiny" id="sizeHelp">Medium is a good starting point for a standard Phoenix home exterior, driveway, or patio job.</p>
+          </div>
+
+          <div class="section">
+            <div class="section-head">
+              <div class="step-badge">3</div>
+              <div>
+                <h2>How dirty is it?</h2>
+                <p class="helper">This is where customers can signal whether the job is routine, typical, or neglected.</p>
+              </div>
+            </div>
+
+            <div class="option-grid" id="conditionOptions">
+              <label class="option">
+                <input type="radio" name="condition" value="light" />
+                <div class="option-box">
+                  <strong>Light</strong>
+                  <small>Routine dust, light surface dirt, maintenance clean.</small>
+                </div>
+              </label>
+              <label class="option">
+                <input type="radio" name="condition" value="moderate" checked />
+                <div class="option-box">
+                  <strong>Moderate</strong>
+                  <small>Typical Phoenix buildup, average discoloration, normal traffic.</small>
+                </div>
+              </label>
+              <label class="option">
+                <input type="radio" name="condition" value="heavy" />
+                <div class="option-box">
+                  <strong>Heavy</strong>
+                  <small>Neglected surface, deeper staining, heavier prep and dwell time.</small>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-head">
+              <div class="step-badge">4</div>
+              <div>
+                <h2>Add anything extra</h2>
+                <p class="helper">Optional upsells increase ticket size without forcing every user through a long form.</p>
+              </div>
+            </div>
+
+            <div class="option-grid">
+              <label class="option">
+                <input type="checkbox" name="addons" value="oil" />
+                <div class="option-box">
+                  <strong>Oil or rust treatment</strong>
+                  <small>Extra chemistry and stain work.</small>
+                </div>
+              </label>
+              <label class="option">
+                <input type="checkbox" name="addons" value="gum" />
+                <div class="option-box">
+                  <strong>Sticky residue removal</strong>
+                  <small>Gum, food spills, sticky buildup, heavy spot cleaning.</small>
+                </div>
+              </label>
+              <label class="option">
+                <input type="checkbox" name="addons" value="furniture" />
+                <div class="option-box">
+                  <strong>Move light patio items</strong>
+                  <small>Chairs, small tables, movable obstacles.</small>
+                </div>
+              </label>
+              <label class="option">
+                <input type="checkbox" name="addons" value="urgent" />
+                <div class="option-box">
+                  <strong>Priority scheduling</strong>
+                  <small>Requested faster turnaround.</small>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-head">
+              <div class="step-badge">5</div>
+              <div>
+                <h2>See your ballpark estimate</h2>
+                <p class="helper">Show the range first. That is usually enough value to earn the lead form completion.</p>
+              </div>
+            </div>
+
+            <div class="tip-box">
+              <strong>Why this shows a range:</strong> exact price depends on measurements, stain severity, water access, obstacles, and whether the surface needs specialty treatment.
+            </div>
+
+            <div class="btn-row">
+              <button type="button" class="btn-primary" id="calcBtn">Update My Estimate</button>
+              <button type="button" class="btn-secondary" id="resetBtn">Start Over</button>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-head">
+              <div class="step-badge">6</div>
+              <div>
+                <h2>Get the exact quote</h2>
+                <p class="helper">Keep this form short. Name and phone are enough to maximize submissions. Email stays available but optional.</p>
+              </div>
+            </div>
+
+            <div class="field-grid">
+              <div class="field">
+                <label for="fullName">Full name</label>
+                <input id="fullName" name="fullName" type="text" placeholder="John Smith" />
+              </div>
+              <div class="field">
+                <label for="phone">Phone number</label>
+                <input id="phone" name="phone" type="tel" placeholder="(602) 555-1234" />
+              </div>
+              <div class="field full">
+                <label for="email">Email address <span class="sub-label">optional</span></label>
+                <input id="email" name="email" type="email" placeholder="john@email.com" />
+              </div>
+              <div class="field">
+                <label for="zip">ZIP code <span class="sub-label">optional</span></label>
+                <input id="zip" name="zip" type="text" inputmode="numeric" placeholder="85027" />
+              </div>
+              <div class="field">
+                <label for="address">Service address <span class="sub-label">optional</span></label>
+                <input id="address" name="address" type="text" placeholder="Street or neighborhood" />
+              </div>
+              <div class="field full">
+                <label for="notes">Notes <span class="sub-label">optional</span></label>
+                <textarea id="notes" name="notes" placeholder="Example: heavy oil spots, HOA gate code, pool deck only, photos available"></textarea>
+              </div>
+            </div>
+
+            <div class="btn-row">
+              <button type="submit" class="btn-primary">Request My Exact Quote</button>
+            </div>
+
+            <div class="status" id="statusBox"></div>
+            <div class="result-panel" id="leadPreview"></div>
+            <p class="footer-note">Demo version only. It does not send leads anywhere yet. The next pass can connect this to email, CRM, Zapier, or your website form handler.</p>
+          </div>
+        </form>
+      </section>
+
+      <aside class="card summary-card summary-desktop">
+        <div class="price-box">
+          <p class="price-kicker">Current ballpark</p>
+          <p class="price" id="estimateValue">$195</p>
+          <p class="price-range" id="estimateRange">Typical range: $165 - $225</p>
+
+          <div class="summary-mini" id="estimateMessage">
+            <strong>Best fit right now</strong>
+            Most jobs like this land near the middle of the range.
+          </div>
+        </div>
+
+        <ul class="summary-list">
+          <li><span>Service</span><strong id="summaryService">House wash</strong></li>
+          <li><span>Property</span><strong id="summaryProperty">Residential</strong></li>
+          <li><span>Size</span><strong id="summarySize">1,500 sq ft</strong></li>
+          <li><span>Condition</span><strong id="summaryCondition">Moderate</strong></li>
+          <li><span>Access</span><strong id="summaryStories">1 story / easy access</strong></li>
+          <li><span>Extras</span><strong id="summaryAddons">None</strong></li>
+        </ul>
+
+        <div class="notice">
+          Final pricing may move if square footage is higher than estimated, stains need stronger treatment, surfaces are delicate, or access is limited.
+        </div>
+
+        <div class="cta-box">
+          <p class="microcopy"><strong>Conversion note:</strong> this version reduces friction by using larger tap targets, quick size presets, and fewer required form fields.</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('estimateForm');
+    const sizeRange = document.getElementById('sizeRange');
+    const sizeLabel = document.getElementById('sizeLabel');
+    const sizeHelp = document.getElementById('sizeHelp');
+    const stories = document.getElementById('stories');
+    const calcBtn = document.getElementById('calcBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const statusBox = document.getElementById('statusBox');
+    const leadPreview = document.getElementById('leadPreview');
+    const serviceHint = document.getElementById('serviceHint');
+    const estimateMessage = document.getElementById('estimateMessage');
+
+    const estimateValue = document.getElementById('estimateValue');
+    const estimateRange = document.getElementById('estimateRange');
+    const estimateValueMobile = document.getElementById('estimateValueMobile');
+    const estimateRangeMobile = document.getElementById('estimateRangeMobile');
+
+    const summaryService = document.getElementById('summaryService');
+    const summaryProperty = document.getElementById('summaryProperty');
+    const summarySize = document.getElementById('summarySize');
+    const summaryCondition = document.getElementById('summaryCondition');
+    const summaryStories = document.getElementById('summaryStories');
+    const summaryAddons = document.getElementById('summaryAddons');
+
+    const presetButtons = Array.from(document.querySelectorAll('.preset'));
+
+    const serviceRates = {
+      house: 0.12,
+      driveway: 0.145,
+      patio: 0.135,
+      commercialPad: 0.165
+    };
+
+    const serviceMinimums = {
+      house: 185,
+      driveway: 165,
+      patio: 155,
+      commercialPad: 235
+    };
+
+    const conditionMultiplier = {
+      light: 0.92,
+      moderate: 1.00,
+      heavy: 1.26
+    };
+
+    const propertyMultiplier = {
+      residential: 1.00,
+      commercial: 1.18
+    };
+
+    const storyMultiplier = {
+      '1': 1.00,
+      '2': 1.14,
+      '3': 1.30
+    };
+
+    const addonPricing = {
+      oil: 55,
+      gum: 35,
+      furniture: 25,
+      urgent: 50
+    };
+
+    const serviceCopy = {
+      house: 'Exterior wall washing for stucco, siding, trim, and common entry areas. In Phoenix, dust and sun exposure make this one of the most common starting services.',
+      driveway: 'Concrete cleaning for driveways, aprons, and front walkways. Oil, tire marks, and rust can move the final quote upward.',
+      patio: 'Patios, pool decks, pavers, and outdoor living areas. This is useful when the customer does not know exact square footage but knows the area type.',
+      commercialPad: 'Retail pads, sidewalks, storefront entries, and commercial flatwork. Commercial access, traffic timing, and stain removal can add labor.'
+    };
+
+    const sizeCopy = [
+      { max: 1000, label: 'Small is usually enough for a compact patio, single driveway, or focused cleaning area.' },
+      { max: 2200, label: 'Medium is a good starting point for a standard Phoenix home exterior, driveway, or patio job.' },
+      { max: 3600, label: 'Large works better for broader exteriors, bigger driveways, or combined front and back areas.' },
+      { max: Infinity, label: 'XL is better for larger homes, large flatwork, or broader commercial cleaning areas.' }
+    ];
+
+    const formatter = new Intl.NumberFormat('en-US');
+    const currency = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 0
+    });
+
+    function getSelectedValue(name) {
+      const checked = document.querySelector(`input[name="${name}"]:checked`);
+      return checked ? checked.value : '';
+    }
+
+    function getSelectedAddons() {
+      return Array.from(document.querySelectorAll('input[name="addons"]:checked')).map((el) => el.value);
+    }
+
+    function getTextForSelectedRadio(name) {
+      const checked = document.querySelector(`input[name="${name}"]:checked`);
+      if (!checked) return '';
+      const box = checked.nextElementSibling;
+      const strong = box.querySelector('strong');
+      return strong ? strong.textContent.trim() : checked.value;
+    }
+
+    function describeAddons(addons) {
+      if (!addons.length) return 'None';
+      const map = {
+        oil: 'Oil / rust treatment',
+        gum: 'Sticky residue removal',
+        furniture: 'Move light items',
+        urgent: 'Priority scheduling'
+      };
+      return addons.map((key) => map[key]).join(', ');
+    }
+
+    function getEstimateData() {
+      const service = getSelectedValue('serviceType') || 'house';
+      const property = getSelectedValue('propertyType') || 'residential';
+      const condition = getSelectedValue('condition') || 'moderate';
+      const story = stories.value;
+      const size = Number(sizeRange.value);
+      const addons = getSelectedAddons();
+
+      let base = size * serviceRates[service];
+      base = Math.max(base, serviceMinimums[service]);
+      base *= propertyMultiplier[property];
+      base *= conditionMultiplier[condition];
+      base *= storyMultiplier[story];
+
+      let addonTotal = 0;
+      addons.forEach((key) => {
+        addonTotal += addonPricing[key] || 0;
+      });
+
+      const midpoint = Math.round(base + addonTotal);
+      const low = Math.max(95, Math.round(midpoint * 0.87));
+      const high = Math.round(midpoint * 1.15);
+
+      return { service, property, condition, story, size, addons, midpoint, low, high };
+    }
+
+    function updateSizeLabel() {
+      const value = Number(sizeRange.value);
+      sizeLabel.textContent = `${formatter.format(value)} sq ft`;
+      summarySize.textContent = `${formatter.format(value)} sq ft`;
+
+      const copy = sizeCopy.find((entry) => value <= entry.max);
+      sizeHelp.textContent = copy ? copy.label : '';
+
+      let closestPreset = presetButtons[0];
+      let smallestDiff = Infinity;
+      presetButtons.forEach((button) => {
+        const diff = Math.abs(Number(button.dataset.size) - value);
+        if (diff < smallestDiff) {
+          smallestDiff = diff;
+          closestPreset = button;
+        }
+      });
+      presetButtons.forEach((button) => button.classList.remove('active'));
+      if (closestPreset) closestPreset.classList.add('active');
+    }
+
+    function updateServiceHint(service) {
+      serviceHint.innerHTML = `<strong>What this usually includes:</strong> ${serviceCopy[service]}`;
+    }
+
+    function updateSummary(data) {
+      summaryService.textContent = getTextForSelectedRadio('serviceType');
+      summaryProperty.textContent = getTextForSelectedRadio('propertyType');
+      summarySize.textContent = `${formatter.format(data.size)} sq ft`;
+      summaryCondition.textContent = getTextForSelectedRadio('condition');
+      summaryStories.textContent = stories.options[stories.selectedIndex].text;
+      summaryAddons.textContent = describeAddons(data.addons);
+      estimateMessage.innerHTML = `<strong>Best fit right now</strong> Most jobs like this land near ${currency.format(data.midpoint)} before final onsite confirmation.`;
+    }
+
+    function renderEstimate() {
+      const data = getEstimateData();
+      const rangeText = `Typical range: ${currency.format(data.low)} - ${currency.format(data.high)}`;
+      estimateValue.textContent = currency.format(data.midpoint);
+      estimateRange.textContent = rangeText;
+      estimateValueMobile.textContent = currency.format(data.midpoint);
+      estimateRangeMobile.textContent = rangeText;
+      updateServiceHint(data.service);
+      updateSummary(data);
+      return data;
+    }
+
+    function resetStatus() {
+      statusBox.style.display = 'none';
+      statusBox.textContent = '';
+      statusBox.innerHTML = '';
+      statusBox.style.background = 'var(--success-bg)';
+      statusBox.style.borderColor = 'var(--success-border)';
+      statusBox.style.color = '#145c2e';
+      leadPreview.style.display = 'none';
+      leadPreview.innerHTML = '';
+    }
+
+    function showError(message) {
+      statusBox.style.display = 'block';
+      statusBox.style.background = 'var(--danger-bg)';
+      statusBox.style.borderColor = 'var(--danger-border)';
+      statusBox.style.color = '#8b2e22';
+      statusBox.textContent = message;
+      leadPreview.style.display = 'none';
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function isLikelyPhone(phone) {
+      const digits = phone.replace(/\D/g, '');
+      return digits.length >= 10;
+    }
+
+    presetButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        sizeRange.value = button.dataset.size;
+        updateSizeLabel();
+        renderEstimate();
+      });
+    });
+
+    sizeRange.addEventListener('input', () => {
+      updateSizeLabel();
+      renderEstimate();
+    });
+
+    document.querySelectorAll('input[name="serviceType"], input[name="propertyType"], input[name="condition"], input[name="addons"]').forEach((el) => {
+      el.addEventListener('change', renderEstimate);
+    });
+
+    stories.addEventListener('change', renderEstimate);
+
+    calcBtn.addEventListener('click', () => {
+      renderEstimate();
+      const anchor = window.innerWidth < 940 ? document.querySelector('.summary-mobile') : document.querySelector('.summary-desktop');
+      if (anchor) anchor.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
+    resetBtn.addEventListener('click', () => {
+      form.reset();
+      document.querySelector('input[name="serviceType"][value="house"]').checked = true;
+      document.querySelector('input[name="propertyType"][value="residential"]').checked = true;
+      document.querySelector('input[name="condition"][value="moderate"]').checked = true;
+      sizeRange.value = 1500;
+      stories.value = '1';
+      resetStatus();
+      updateSizeLabel();
+      renderEstimate();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const fullName = document.getElementById('fullName').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const zip = document.getElementById('zip').value.trim();
+      const address = document.getElementById('address').value.trim();
+      const notes = document.getElementById('notes').value.trim();
+
+      if (!fullName) {
+        showError('Please enter the customer name before requesting the exact quote.');
+        return;
+      }
+
+      if (!isLikelyPhone(phone)) {
+        showError('Please enter a valid phone number so the estimate request can be followed up.');
+        return;
+      }
+
+      if (email && !isValidEmail(email)) {
+        showError('The email address looks incomplete. Fix it or leave it blank.');
+        return;
+      }
+
+      const data = renderEstimate();
+
+      statusBox.style.display = 'block';
+      statusBox.style.background = 'var(--success-bg)';
+      statusBox.style.borderColor = 'var(--success-border)';
+      statusBox.style.color = '#145c2e';
+      statusBox.innerHTML = `<strong>Request ready.</strong> This demo is showing the captured lead below instead of sending it to a live inbox or CRM.`;
+
+      leadPreview.style.display = 'block';
+      leadPreview.innerHTML = `
+        <strong>Lead preview</strong><br><br>
+        <strong>Name:</strong> ${escapeHtml(fullName)}<br>
+        <strong>Phone:</strong> ${escapeHtml(phone)}<br>
+        <strong>Email:</strong> ${escapeHtml(email || 'Not provided')}<br>
+        <strong>ZIP:</strong> ${escapeHtml(zip || 'Not provided')}<br>
+        <strong>Address:</strong> ${escapeHtml(address || 'Not provided')}<br>
+        <strong>Service:</strong> ${escapeHtml(getTextForSelectedRadio('serviceType'))}<br>
+        <strong>Property:</strong> ${escapeHtml(getTextForSelectedRadio('propertyType'))}<br>
+        <strong>Condition:</strong> ${escapeHtml(getTextForSelectedRadio('condition'))}<br>
+        <strong>Access:</strong> ${escapeHtml(stories.options[stories.selectedIndex].text)}<br>
+        <strong>Size:</strong> ${formatter.format(data.size)} sq ft<br>
+        <strong>Extras:</strong> ${escapeHtml(describeAddons(data.addons))}<br>
+        <strong>Ballpark:</strong> ${currency.format(data.low)} - ${currency.format(data.high)}<br>
+        <strong>Notes:</strong> ${escapeHtml(notes || 'None')}
+      `;
+
+      leadPreview.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
+    updateSizeLabel();
+    renderEstimate();
+  </script>
+</body>
+</html>
