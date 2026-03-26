@@ -15,10 +15,10 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Family-Owned Phoenix Pressure Washing | Clean Surface">
     <meta name="twitter:description" content="Talk directly with Steve and the Clean Surface family-run crew for house washing, driveway cleaning, commercial concrete, window cleaning, and steam cleaning in the Phoenix metro.">
-    <meta name="twitter:image" content="https://www.cleansurfacepressurewashing.com/wp-content/uploads/2026/01/transform-your-residential-home-or-commercial-space-with-professional-pressure-washing-services.jpg">
+    <meta name="robots" content="index, follow, max-image-preview:large">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/styles.css">
     <script type="application/ld+json">
     {
@@ -40,10 +40,7 @@
           "priceRange": "$$",
           "image": "https://www.cleansurfacepressurewashing.com/wp-content/uploads/2026/01/transform-your-residential-home-or-commercial-space-with-professional-pressure-washing-services.jpg",
           "foundingDate": "2020-06-11",
-          "founder": {
-            "@type": "Person",
-            "name": "Steve Tersakian"
-          },
+          "founder": { "@type": "Person", "name": "Steve Tersakian" },
           "address": {
             "@type": "PostalAddress",
             "streetAddress": "4108 W Windrose Dr",
@@ -52,17 +49,13 @@
             "postalCode": "85029",
             "addressCountry": "US"
           },
-          "areaServed": [
-            "Phoenix",
-            "Scottsdale",
-            "Mesa",
-            "Gilbert",
-            "Chandler",
-            "Tempe",
-            "Glendale",
-            "Peoria",
-            "Paradise Valley"
-          ],
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "5.0",
+            "reviewCount": "175",
+            "bestRating": "5"
+          },
+          "areaServed": ["Phoenix","Scottsdale","Mesa","Gilbert","Chandler","Tempe","Glendale","Peoria","Paradise Valley"],
           "sameAs": [
             "https://www.facebook.com/CleanSurface92/",
             "https://www.instagram.com/clean.surface.pressure.washing/"
@@ -75,17 +68,19 @@
 <body>
     <a class="skip-link" href="#main">Skip to content</a>
 
+    <!-- Top Bar -->
     <div class="topbar">
         <div class="container">
-            <span>Clean Surface is a family-owned Phoenix business with a trained crew handling pressure washing, soft washing, window cleaning, and 240-degree hot-water steam cleaning across the Valley.</span>
-            <a href="tel:4802983416">Call: (480) 298-3416</a>
+            <span>Family-owned · Phoenix metro · Licensed &amp; insured · 7-day satisfaction promise</span>
+            <a href="tel:4802983416">☎ (480) 298-3416</a>
         </div>
     </div>
 
+    <!-- Header -->
     <header class="site-header">
         <div class="container nav-shell">
             <a class="brand" href="/">
-                <img src="/assets/images/logo.png" alt="Clean Surface Pressure Washing logo">
+                <img src="/assets/images/logo.png" alt="Clean Surface Pressure Washing">
                 <span class="brand-copy">
                     <small>Family-owned since 2020</small>
                     <strong>Clean Surface Pressure Washing</strong>
@@ -93,293 +88,468 @@
             </a>
             <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
             <nav aria-label="Primary">
-                <ul class="menu" id="menu"><li><a href="/">Home</a></li><li><a href="/about/">About</a></li><li><a href="/services/">Services</a></li><li><a href="/service-areas/">Service Areas</a></li><li><a href="/gallery/">Gallery</a></li><li><a href="/faqs/">FAQs</a></li><li><a href="/contact/">Contact</a></li><li><a class="button button-primary" href="tel:4802983416">Request Quote</a></li></ul>
+                <ul class="menu" id="menu">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/services/">Services</a></li>
+                    <li><a href="/service-areas/">Service Areas</a></li>
+                    <li><a href="/gallery/">Gallery</a></li>
+                    <li><a href="/faqs/">FAQs</a></li>
+                    <li><a href="/contact/">Contact</a></li>
+                    <li><a class="button button-primary" href="tel:4802983416">Call for a Quote</a></li>
+                </ul>
             </nav>
         </div>
     </header>
 
     <main id="main">
-        <section class="container hero">
+
+        <!-- ── Hero ──────────────────────────────────────────────── -->
+        <section class="hero" aria-label="Hero">
+            <div class="hero-visual">
+                <img
+                    src="/assets/images/Driveway-Rust-Removal-Phoenix-After-1024x768-1.webp"
+                    alt="Driveway rust removal result in Phoenix, AZ by Clean Surface Pressure Washing"
+                    loading="eager"
+                    fetchpriority="high"
+                >
+                <div class="hero-visual-overlay"></div>
+                <div class="hero-badge">Real result · Phoenix, AZ</div>
+            </div>
+
             <div class="hero-copy">
-                <span class="eyebrow">Phoenix pressure washing built for Arizona surfaces</span>
-                <h1>Clean what matters.</h1>
-                <p>Steve Tersakian leads Clean Surface as a family-run exterior cleaning company with a dependable field crew behind him. The work stays focused on what Arizona properties need most: dusty stucco, stained driveways, worn patios, hard-water spotting, storefront glass, and concrete that needs the right method for the surface instead of a one-size-fits-all wash.</p>
-                <div class="actions">
-                    <a class="button button-primary" href="tel:4802983416">Call for a quote</a>
-                    <a class="button button-secondary" href="#results">See recent results</a>
+                <span class="eyebrow">Phoenix's premier pressure washing</span>
+                <h1>The <em>cleanest</em> property on the block.</h1>
+                <p>Steve Tersakian leads Clean Surface — a family-run exterior cleaning crew built on honest work, the right method for every surface, and results you can see from the street.</p>
+                <div class="hero-actions">
+                    <a class="button button-primary" href="tel:4802983416">Call for a Quote</a>
+                    <a class="button button-ghost" href="#results">See Our Work</a>
                 </div>
                 <ul class="feature-list">
-                                <li>Family-owned, licensed and insured local crew</li>
-                    <li>Soft washing for stucco plus 240-degree hot-water steam for tough buildup</li>
-                    <li>7-day Satisfaction Promise and a written driveway money-back guarantee</li>
-                    <li>Phoenix, Scottsdale, Mesa, Gilbert, Chandler, Tempe, Glendale, Peoria, and Paradise Valley service areas</li>
+                    <li>Family-owned, licensed &amp; insured local crew</li>
+                    <li>240° hot-water steam for grease, gum &amp; stubborn buildup</li>
+                    <li>Soft washing for stucco &amp; delicate Arizona exteriors</li>
+                    <li>Written money-back guarantee on driveway cleaning</li>
                 </ul>
-            </div>
-
-            <aside class="quote-panel">
-                <div class="stack-md">
-                    <h2 style="font-size:1.6rem;margin-bottom:16px;">Get a ballpark quote fast</h2>
-                    <form class="quote-form" data-estimator="full"></form>
-                </div>
-
-                <div class="photo-grid">
-                    <figure>
-                        <img src="/assets/images/hero-property.jpg" alt="Clean Surface project at an Arizona home" loading="eager">
-                        <figcaption>Residential curb appeal</figcaption>
-                    </figure>
-                    <figure>
-                        <img src="/assets/images/hero-driveway.jpg" alt="Concrete driveway cleaned by Clean Surface" loading="lazy">
-                        <figcaption>Driveways and concrete</figcaption>
-                    </figure>
-                </div>
-            </aside>
-        </section>
-
-        <section class="container">
-            <div class="stat-grid">
-                <article class="stat-card">
-                    <strong>175+</strong>
-                    <p>Local reviews supporting Clean Surface’s Phoenix reputation.</p>
-                </article>
-                <article class="stat-card">
-                    <strong>2500+</strong>
-                    <p>Surfaces restored across residential and commercial jobs.</p>
-                </article>
-                <article class="stat-card">
-                    <strong>240 F</strong>
-                    <p>Hot-water steam capability for grease, gum, oil, and stubborn buildup.</p>
-                </article>
-                <article class="stat-card">
-                    <strong>Since 2020</strong>
-                    <p>Family-owned service rooted in Phoenix and backed by a hands-on local crew.</p>
-                </article>
-            </div>
-        </section>
-
-        <section class="section section-alt" id="results">
-            <div class="container">
-                <div class="section-header">
-                    <span>Recent Results</span>
-                    <h2>Driveways, patios, and commercial concrete before and after the job.</h2>
-                    <p>Drag the slider on each comparison to see the difference. These are typical results across the Valley for the surfaces Clean Surface handles most.</p>
-                </div>
-                <div class="comparison-grid">
-                    <article class="comparison-card">
-                        <span class="tag">Driveway cleaning</span>
-                        <strong>Stain lift for high-visibility concrete</strong>
-                        <p>Arizona driveways collect dust, oil spots, tire marks, and mineral staining quickly. This is one of the fastest ways to improve the front of a property.</p>
-                        <div class="ba" data-ba>
-                            <img src="/assets/images/driveway-before.webp" alt="Driveway before pressure washing in Phoenix" loading="lazy">
-                            <div class="ba-after-wrap">
-                                <img src="/assets/images/driveway-after.webp" alt="Driveway after pressure washing in Phoenix" loading="lazy">
-                            </div>
-                            <input class="ba-range" type="range" min="0" max="100" value="58" aria-label="Compare driveway cleaning before and after">
-                        </div>
-                        <div class="ba-labels"><span>Before</span><span>After</span></div>
-                        <p class="comparison-hint">Drag the slider to compare the cleaned surface.</p>
-                    </article>
-                    <article class="comparison-card">
-                        <span class="tag">Patio cleaning</span>
-                        <strong>Backyard spaces that look ready to use again</strong>
-                        <p>Pool decks and patios take on dust and staining year-round, especially in Scottsdale and Gilbert where outdoor spaces stay active most of the year.</p>
-                        <div class="ba" data-ba>
-                            <img src="/assets/images/patio-before.webp" alt="Patio before pressure washing in Scottsdale" loading="lazy">
-                            <div class="ba-after-wrap">
-                                <img src="/assets/images/patio-after.webp" alt="Patio after pressure washing in Scottsdale" loading="lazy">
-                            </div>
-                            <input class="ba-range" type="range" min="0" max="100" value="56" aria-label="Compare patio cleaning before and after">
-                        </div>
-                        <div class="ba-labels"><span>Before</span><span>After</span></div>
-                        <p class="comparison-hint">Drag the slider to compare the cleaned surface.</p>
-                    </article>
-                    <article class="comparison-card">
-                        <span class="tag">Commercial concrete</span>
-                        <strong>Cleaner walkways and better first impressions</strong>
-                        <p>Commercial concrete and customer walkways need more than a rinse. Clean Surface uses the right pressure, cleaners, and hot-water options for presentation-focused properties.</p>
-                        <div class="ba" data-ba>
-                            <img src="/assets/images/commercial-before.webp" alt="Commercial sidewalk before cleaning in Phoenix" loading="lazy">
-                            <div class="ba-after-wrap">
-                                <img src="/assets/images/commercial-after.webp" alt="Commercial sidewalk after cleaning in Phoenix" loading="lazy">
-                            </div>
-                            <input class="ba-range" type="range" min="0" max="100" value="60" aria-label="Compare commercial walkway cleaning before and after">
-                        </div>
-                        <div class="ba-labels"><span>Before</span><span>After</span></div>
-                        <p class="comparison-hint">Drag the slider to compare the cleaned surface.</p>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <section class="section">
-            <div class="container">
-                <div class="section-header">
-                    <span>Why Clean Surface</span>
-                    <h2>What people actually get when they hire Steve.</h2>
-                    <p>This is the difference between a generic pressure washing listing and a local company that knows Arizona surfaces, gives clear expectations, and stands behind the work.</p>
-                </div>
-                <div class="two-col">
-                    <article class="content-block">
-                        <strong>Surface-specific work instead of guesswork</strong>
-                        <p>Steve uses low-pressure soft washing on stucco, painted exteriors, and delicate finishes, then switches to higher heat and more aggressive concrete methods when the job calls for it. That matters in Phoenix because dusty stucco, sun-baked concrete, gum, oil, and hard water all behave differently.</p>
-                        <ul class="mini-list">
-                            <li>240-degree hot-water steam for grease, gum, and stubborn buildup</li>
-                            <li>Soft washing for stucco, painted exteriors, and other delicate finishes</li>
-                            <li>Biodegradable detergents and water-conscious cleanup practices</li>
-                            <li>Residential, commercial, and HOA-friendly service</li>
-                        </ul>
-                    </article>
-                    <article class="content-block">
-                        <strong>Written guarantees customers remember</strong>
-                        <p>Clean Surface backs projects with a 7-day Satisfaction Promise and calls out a money-back guarantee for driveway work when Steve recommends a treatment and the result does not show noticeable improvement. That kind of clarity is part of why the company has built such a strong review profile.</p>
-                        <ul class="mini-list">
-                            <li>Steve Tersakian leads quality control and the crew on every job</li>
-                            <li>Clear walkthrough and finish standard before the crew leaves</li>
-                            <li>Direct phone and text access instead of a generic inbox</li>
-                            <li>Fast quotes for Phoenix, Scottsdale, Mesa, Gilbert, Chandler, Tempe, Glendale, Peoria, and Paradise Valley</li>
-                        </ul>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <section class="section section-alt">
-            <div class="container">
-                <div class="section-header">
-                    <span>Reviews</span>
-                    <h2>What Valley customers say after the job is done.</h2>
-                    <p>175+ local reviews. These represent the kinds of feedback Clean Surface consistently earns across residential and commercial jobs in the Phoenix metro.</p>
-                </div>
-                <div class="testimonial-grid">
-                    <article class="testimonial-card">
-                        <div class="testimonial-stars" aria-label="5 stars">★★★★★</div>
-                        <blockquote>
-                            <p>Steve and his crew did an incredible job on our driveway. We had oil stains and years of buildup that I thought were permanent. They used some kind of pretreatment and hot water and it came out looking brand new. Will definitely be calling again for the patio.</p>
-                        </blockquote>
-                        <footer>
-                            <strong>Mark T.</strong>
-                            <span>Driveway cleaning — Phoenix</span>
-                        </footer>
-                    </article>
-                    <article class="testimonial-card">
-                        <div class="testimonial-stars" aria-label="5 stars">★★★★★</div>
-                        <blockquote>
-                            <p>Really glad I found Clean Surface. My stucco house was covered in dust and hard water marks from the sprinklers. They knew exactly what method to use and didn't blast it like concrete. The whole exterior looks a hundred times better. Easy to schedule and very professional.</p>
-                        </blockquote>
-                        <footer>
-                            <strong>Jennifer R.</strong>
-                            <span>House washing — Scottsdale</span>
-                        </footer>
-                    </article>
-                    <article class="testimonial-card">
-                        <div class="testimonial-stars" aria-label="5 stars">★★★★★</div>
-                        <blockquote>
-                            <p>We manage a few commercial properties in the East Valley and have used several pressure washing companies. Clean Surface is the only one that consistently shows up on time, communicates clearly, and actually improves how the storefronts look. The team is reliable and the results are visible.</p>
-                        </blockquote>
-                        <footer>
-                            <strong>David K.</strong>
-                            <span>Commercial pressure washing — Gilbert</span>
-                        </footer>
-                    </article>
-                </div>
-                <p class="testimonial-footer">5.0 rating across 175+ reviews. Read more on <a href="https://www.google.com/maps/place/Clean+Surface+Pressure+Washing" target="_blank" rel="noopener">Google</a> and <a href="https://www.facebook.com/CleanSurface92/" target="_blank" rel="noopener">Facebook</a>.</p>
-            </div>
-        </section>
-
-        <section class="section section-dark">
-            <div class="container">
-                <div class="section-header">
-                    <span>Services</span>
-                    <h2>Pressure washing services built around the surfaces Valley property owners call about most.</h2>
-                    <p>Clean Surface focuses on the work that improves curb appeal, makes storefronts look sharper, and solves the hard-to-ignore buildup people see every day.</p>
-                </div>
-                <div class="card-grid">
-                    <article class="card" style="background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.08);"><span class="tag">Residential</span><strong><a href="/services/house-washing/">House washing and soft washing</a></strong><p>Safe cleaning for stucco, painted exteriors, trim, and dusty Arizona facades that need more care than basic blasting.</p></article>
-                    <article class="card" style="background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.08);"><span class="tag">Concrete</span><strong><a href="/services/driveway-cleaning/">Driveway and concrete cleaning</a></strong><p>Driveways, walkways, patios, and entry concrete with oil, tire marks, rust, and deep-set dust.</p></article>
-                    <article class="card" style="background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.08);"><span class="tag">Commercial</span><strong><a href="/services/commercial-pressure-washing/">Commercial pressure washing</a></strong><p>Customer walkways, storefronts, dumpster pads, and other surfaces that shape first impressions.</p></article>
-                    <article class="card" style="background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.08);"><span class="tag">Steam</span><strong><a href="/services/hot-water-steam-cleaning/">Hot-water steam cleaning</a></strong><p>Grease, gum, oil, and stubborn buildup that respond better to high heat than cold water alone.</p></article>
-                    <article class="card" style="background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.08);"><span class="tag">Outdoor</span><strong><a href="/services/patio-pool-deck-cleaning/">Patio and pool deck cleaning</a></strong><p>Outdoor living areas that need to look cleaner, feel safer underfoot, and match the rest of the property.</p></article>
-                    <article class="card" style="background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.08);"><span class="tag">Glass</span><strong><a href="/services/window-cleaning/">Window cleaning</a></strong><p>Residential and commercial window cleaning for glass, frames, tracks, screens, and customer-facing entries.</p></article>
-                    <article class="card" style="background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.08);"><span class="tag">More details</span><strong><a href="/services/">Explore all services</a></strong><p>See the full service menu and match the job to the right city page or service page.</p></article>
-                </div>
-            </div>
-        </section>
-
-        <section class="section">
-            <div class="container">
-                <div class="section-header">
-                    <span>Service Areas</span>
-                    <h2>Clean Surface serves nine cities across the Phoenix metro.</h2>
-                    <p>Based in Phoenix and serving the full Valley — residential, commercial, and HOA properties from Scottsdale and Paradise Valley to Mesa, Gilbert, Chandler, Tempe, Glendale, and Peoria.</p>
-                </div>
-                <div class="city-grid">
-                    <article class="card"><strong><a href="/phoenix/">Phoenix pressure washing</a></strong><p>Dusty stucco, driveways, commercial walkways, and hot-weather concrete that need a Phoenix-specific approach.</p></article>
-                    <article class="card"><strong><a href="/scottsdale/">Scottsdale pressure washing</a></strong><p>Upscale curb appeal, pavers, pool decks, and finish-safe cleaning for homes and storefronts.</p></article>
-                    <article class="card"><strong><a href="/mesa/">Mesa pressure washing</a></strong><p>Driveways, stucco homes, and practical exterior cleaning for busy residential properties.</p></article>
-                    <article class="card"><strong><a href="/gilbert/">Gilbert pressure washing</a></strong><p>Neighborhood curb appeal, patios, pool decks, and recurring maintenance-minded service.</p></article>
-                    <article class="card"><strong><a href="/chandler/">Chandler pressure washing</a></strong><p>Residential neighborhoods plus commercial corridors that need clean entries and visible surfaces.</p></article>
-                    <article class="card"><strong><a href="/tempe/">Tempe pressure washing</a></strong><p>Homes, rentals, patios, storefronts, and walkways that need a mixed residential and commercial approach.</p></article>
-                    <article class="card"><strong><a href="/glendale/">Glendale pressure washing</a></strong><p>Driveways, stucco homes, patios, and storefront concrete that benefits from regular upkeep.</p></article>
-                    <article class="card"><strong><a href="/peoria/">Peoria pressure washing</a></strong><p>Pool decks, backyard hardscape, driveways, and exterior house washing for family properties.</p></article>
-                    <article class="card"><strong><a href="/paradise-valley/">Paradise Valley pressure washing</a></strong><p>Luxury homes, pavers, pool decks, large glass areas, and finish-safe exterior cleaning.</p></article>
-                </div>
-                <div class="actions">
-                    <a class="button button-primary" href="/service-areas/">Explore all service areas</a>
-                    <a class="button button-secondary" href="/gallery/">See recent results</a>
-                </div>
-            </div>
-        </section>
-
-        <section class="section section-alt">
-            <div class="container">
-                <div class="section-header">
-                    <span>FAQs</span>
-                    <h2>Answers that help people book with confidence.</h2>
-                </div>
-                <div class="faq-grid">
-                    <div class="faq-stack">
-                        <details class="faq">
-                            <summary>What makes Clean Surface different from a basic pressure washing company?</summary>
-                            <p>Steve combines soft washing for delicate exteriors with 240-degree hot-water steam for grease, gum, and stubborn stains. The method changes based on the surface instead of treating everything like concrete.</p>
-                        </details>
-                        <details class="faq">
-                            <summary>Do you really guarantee driveway cleaning?</summary>
-                            <p>Yes. When Steve recommends a specific treatment for a driveway and the surface does not show noticeable improvement, the job is covered by a written money-back guarantee. Terms are confirmed on the quote.</p>
-                        </details>
-                        <details class="faq">
-                            <summary>Will I be talking to a real person when I request a quote?</summary>
-                            <p>Yes. Steve handles quoting and communication directly. Call or text (480) 298-3416 and you reach someone who knows the services, can explain what the job needs, and will get it scheduled.</p>
-                        </details>
+                <div class="hero-trust">
+                    <div class="hero-trust-row">
+                        <span class="stars">★★★★★</span>
+                        <span><strong>5.0</strong> · 175+ reviews · Google &amp; Facebook</span>
                     </div>
-                    <aside class="cta-band">
-                        <h3>Need a fast next step?</h3>
-                        <p>Use the estimator for a rough range, send the prebuilt message by text, call to talk through the job live, or use the gallery and FAQ pages if you want more proof before reaching out.</p>
-                        <div class="actions" style="margin-bottom:0;">
-                            <a class="button button-primary" href="/contact/">Get a quote</a>
-                            <a class="button button-secondary" href="tel:4802983416">Call Now</a>
-                            <a class="button button-secondary" href="/faqs/">View FAQs</a>
-                        </div>
-                    </aside>
+                    <div class="hero-trust-row">
+                        <span>Serving Phoenix, Scottsdale, Mesa, Gilbert, Chandler &amp; more</span>
+                    </div>
                 </div>
             </div>
         </section>
+
+        <!-- ── Stats Bar ──────────────────────────────────────────── -->
+        <div class="stats-bar">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <strong>175+</strong>
+                        <span>Five-star reviews</span>
+                    </div>
+                    <div class="stat-item">
+                        <strong>2,500+</strong>
+                        <span>Surfaces restored</span>
+                    </div>
+                    <div class="stat-item">
+                        <strong>240°F</strong>
+                        <span>Steam capability</span>
+                    </div>
+                    <div class="stat-item">
+                        <strong>Since 2020</strong>
+                        <span>Family-owned &amp; local</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Recent Results ─────────────────────────────────────── -->
+        <section class="section" id="results">
+            <div class="container">
+                <div class="section-header">
+                    <span class="eyebrow">Before &amp; After</span>
+                    <h2>The work speaks for itself.</h2>
+                    <p>Real jobs from across the Phoenix metro. Every result is from an actual Clean Surface project — not stock photos.</p>
+                </div>
+                <div class="results-grid">
+
+                    <div class="result-card">
+                        <div class="result-images">
+                            <span class="result-label before">Before</span>
+                            <span class="result-label after">After</span>
+                            <img src="/assets/images/Driveway-Rust-Removal-Phoenix-Before-1.webp" alt="Driveway rust stains before cleaning — Phoenix" loading="lazy">
+                            <img src="/assets/images/Driveway-Rust-Removal-Phoenix-After-1024x768-1.webp" alt="Driveway after rust removal — Phoenix" loading="lazy">
+                            <div class="result-divider"></div>
+                        </div>
+                        <div class="result-info">
+                            <h4>Driveway Rust Removal</h4>
+                            <p>Phoenix · Concrete cleaning &amp; rust treatment</p>
+                        </div>
+                    </div>
+
+                    <div class="result-card">
+                        <div class="result-images">
+                            <span class="result-label before">Before</span>
+                            <span class="result-label after">After</span>
+                            <img src="/assets/images/Patio-Cleaning-Before-1.webp" alt="Patio before pressure washing" loading="lazy">
+                            <img src="/assets/images/Patio-Cleaning-After-1024x762-1.webp" alt="Patio after pressure washing" loading="lazy">
+                            <div class="result-divider"></div>
+                        </div>
+                        <div class="result-info">
+                            <h4>Patio Cleaning</h4>
+                            <p>Phoenix metro · Patio &amp; pool deck restoration</p>
+                        </div>
+                    </div>
+
+                    <div class="result-card">
+                        <div class="result-images">
+                            <span class="result-label before">Before</span>
+                            <span class="result-label after">After</span>
+                            <img src="/assets/images/Commercial-Sidewalk-Cleaning-Before-1.webp" alt="Commercial sidewalk before cleaning" loading="lazy">
+                            <img src="/assets/images/Commercial-Sidewalk-Cleaning-After-1024x769-1.webp" alt="Commercial sidewalk after cleaning" loading="lazy">
+                            <div class="result-divider"></div>
+                        </div>
+                        <div class="result-info">
+                            <h4>Commercial Sidewalk</h4>
+                            <p>Phoenix · Storefront &amp; walkway cleaning</p>
+                        </div>
+                    </div>
+
+                    <div class="result-card">
+                        <div class="result-images">
+                            <span class="result-label before">Before</span>
+                            <span class="result-label after">After</span>
+                            <img src="/assets/images/Driveway-Oil-Removal-Before-1-1.webp" alt="Driveway oil stains before removal" loading="lazy">
+                            <img src="/assets/images/Driveway-Oil-Removal-After-1.webp" alt="Driveway after oil removal" loading="lazy">
+                            <div class="result-divider"></div>
+                        </div>
+                        <div class="result-info">
+                            <h4>Driveway Oil Removal</h4>
+                            <p>Phoenix metro · Hot-water steam treatment</p>
+                        </div>
+                    </div>
+
+                    <div class="result-card">
+                        <div class="result-images">
+                            <span class="result-label before">Before</span>
+                            <span class="result-label after">After</span>
+                            <img src="/assets/images/Residential-Garage-Cleaning-1.webp" alt="Residential garage before cleaning" loading="lazy">
+                            <img src="/assets/images/Residential-Garage-Cleaning-After-1.webp" alt="Residential garage after cleaning" loading="lazy">
+                            <div class="result-divider"></div>
+                        </div>
+                        <div class="result-info">
+                            <h4>Garage Floor Cleaning</h4>
+                            <p>Phoenix metro · Residential garage restoration</p>
+                        </div>
+                    </div>
+
+                    <div class="result-card">
+                        <div class="result-images">
+                            <span class="result-label before">Before</span>
+                            <span class="result-label after">After</span>
+                            <img src="/assets/images/Dumpster-Pad-Cleaning-Phoenix-Before-1.webp" alt="Dumpster pad before cleaning" loading="lazy">
+                            <img src="/assets/images/Dumpster-pad-cleaning-in-phoenix-az-1024x768-1.webp" alt="Dumpster pad after cleaning in Phoenix" loading="lazy">
+                            <div class="result-divider"></div>
+                        </div>
+                        <div class="result-info">
+                            <h4>Dumpster Pad Cleaning</h4>
+                            <p>Phoenix · Commercial grease &amp; buildup removal</p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="actions mt-lg" style="justify-content:center;">
+                    <a class="button button-secondary" href="/gallery/">View Full Gallery</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── About / Split ──────────────────────────────────────── -->
+        <section class="section section-alt">
+            <div class="container">
+                <div class="split">
+                    <div class="split-visual">
+                        <img src="/assets/images/Patio-Washing-After-1024x768-1.webp" alt="Clean patio after professional pressure washing in Phoenix">
+                        <div class="split-badge">
+                            <strong>5.0</strong>
+                            <span>Star Rating · 175+ Reviews</span>
+                        </div>
+                    </div>
+                    <div class="split-copy">
+                        <span class="eyebrow">About Clean Surface</span>
+                        <h2>Steve knows Arizona surfaces. He built this business around that.</h2>
+                        <p>Phoenix isn't a one-method market. Dusty stucco needs something completely different from oil-soaked concrete, and a Paradise Valley paver deck needs a softer touch than a Chandler storefront. Steve Tersakian started Clean Surface in 2020 because most crews weren't adjusting their approach.</p>
+                        <p>Every job still runs with Steve overseeing quality. You get a trained crew, the right equipment for the surface, and a direct line to someone who will walk the finished job with you.</p>
+                        <div class="actions">
+                            <a class="button button-primary" href="/about/">Meet the Team</a>
+                            <a class="button button-secondary" href="tel:4802983416">Call Steve Directly</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── Services ───────────────────────────────────────────── -->
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="eyebrow">What We Do</span>
+                    <h2>The right method for every surface.</h2>
+                    <p>Not every surface needs the same treatment. Clean Surface matches the method to the material — every time.</p>
+                </div>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">🏠</div>
+                        <h3>House Washing</h3>
+                        <p>Low-pressure soft washing for stucco, painted exteriors, trim, and Arizona facades. No blasting, no damage.</p>
+                        <a class="service-link" href="/services/house-washing/">Learn more →</a>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🛣️</div>
+                        <h3>Driveway Cleaning</h3>
+                        <p>Oil stains, rust, tire marks, and mineral buildup on concrete, pavers, and asphalt — with a written money-back guarantee.</p>
+                        <a class="service-link" href="/services/driveway-cleaning/">Learn more →</a>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🏢</div>
+                        <h3>Commercial Washing</h3>
+                        <p>Customer walkways, storefronts, dumpster pads, and commercial concrete that shapes first impressions.</p>
+                        <a class="service-link" href="/services/commercial-pressure-washing/">Learn more →</a>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">♨️</div>
+                        <h3>Hot-Water Steam</h3>
+                        <p>240° steam cleaning for grease, gum, oil, and stubborn buildup that cold water alone won't touch.</p>
+                        <a class="service-link" href="/services/hot-water-steam-cleaning/">Learn more →</a>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🏊</div>
+                        <h3>Patio &amp; Pool Deck</h3>
+                        <p>Outdoor living spaces that look clean, feel safe underfoot, and are ready to use again.</p>
+                        <a class="service-link" href="/services/patio-pool-deck-cleaning/">Learn more →</a>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">🪟</div>
+                        <h3>Window Cleaning</h3>
+                        <p>Residential and commercial windows, frames, tracks, screens, and customer-facing glass.</p>
+                        <a class="service-link" href="/services/window-cleaning/">Learn more →</a>
+                    </div>
+                </div>
+                <div class="actions mt-lg" style="justify-content:center;">
+                    <a class="button button-secondary" href="/services/">View All Services</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── How It Works ───────────────────────────────────────── -->
+        <section class="section section-alt">
+            <div class="container">
+                <div class="section-header">
+                    <span class="eyebrow">How It Works</span>
+                    <h2>Simple from first call to final walkthrough.</h2>
+                </div>
+                <div class="process-grid">
+                    <div class="process-step">
+                        <h4>Call or Text Steve</h4>
+                        <p>Reach a real person at (480) 298-3416. No forms, no bots, no waiting. Steve answers, asks the right questions, and gives you a fast quote.</p>
+                    </div>
+                    <div class="process-step">
+                        <h4>Get a Clear Quote</h4>
+                        <p>You'll know the price, the method, and what to expect before anyone shows up. No surprises at the invoice.</p>
+                    </div>
+                    <div class="process-step">
+                        <h4>Crew Shows Up Ready</h4>
+                        <p>Steve's trained crew arrives on time with the right equipment for your specific surface. They work clean and stay out of your way.</p>
+                    </div>
+                    <div class="process-step">
+                        <h4>Walk It &amp; Approve</h4>
+                        <p>Before the crew leaves, you walk the job together. If anything isn't right, it gets fixed — backed by our 7-day Satisfaction Promise.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── Testimonials ───────────────────────────────────────── -->
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="eyebrow">What Customers Say</span>
+                    <h2>175+ five-star reviews across the Valley.</h2>
+                    <p>These are the kinds of results Clean Surface earns on residential and commercial jobs every week.</p>
+                </div>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars" aria-label="5 stars">★★★★★</div>
+                        <blockquote>"Steve and his crew did an incredible job on our driveway. We had oil stains and years of buildup that I thought were permanent. They used some kind of pretreatment and hot water and it came out looking brand new."</blockquote>
+                        <div class="testimonial-author">
+                            <div class="testimonial-initials">MT</div>
+                            <div>
+                                <cite>Mark T.</cite>
+                                <small>Driveway cleaning · Phoenix</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars" aria-label="5 stars">★★★★★</div>
+                        <blockquote>"My stucco house was covered in dust and hard water marks from the sprinklers. They knew exactly what method to use and didn't blast it like concrete. The whole exterior looks a hundred times better."</blockquote>
+                        <div class="testimonial-author">
+                            <div class="testimonial-initials">JR</div>
+                            <div>
+                                <cite>Jennifer R.</cite>
+                                <small>House washing · Scottsdale</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars" aria-label="5 stars">★★★★★</div>
+                        <blockquote>"We manage several commercial properties in the East Valley. Clean Surface is the only company that consistently shows up on time, communicates clearly, and actually improves how the storefronts look."</blockquote>
+                        <div class="testimonial-author">
+                            <div class="testimonial-initials">DK</div>
+                            <div>
+                                <cite>David K.</cite>
+                                <small>Commercial washing · Gilbert</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── Service Areas ──────────────────────────────────────── -->
+        <section class="section section-alt">
+            <div class="container">
+                <div class="section-header">
+                    <span class="eyebrow">Service Areas</span>
+                    <h2>Nine cities. One crew that knows the Valley.</h2>
+                    <p>Based in Phoenix, serving the full metro — residential, commercial, and HOA properties.</p>
+                </div>
+                <div class="areas-grid">
+                    <a class="area-chip" href="/phoenix/">Phoenix</a>
+                    <a class="area-chip" href="/scottsdale/">Scottsdale</a>
+                    <a class="area-chip" href="/mesa/">Mesa</a>
+                    <a class="area-chip" href="/gilbert/">Gilbert</a>
+                    <a class="area-chip" href="/chandler/">Chandler</a>
+                    <a class="area-chip" href="/tempe/">Tempe</a>
+                    <a class="area-chip" href="/glendale/">Glendale</a>
+                    <a class="area-chip" href="/peoria/">Peoria</a>
+                    <a class="area-chip" href="/paradise-valley/">Paradise Valley</a>
+                </div>
+                <div class="actions mt-lg" style="justify-content:center;">
+                    <a class="button button-secondary" href="/service-areas/">All Service Areas</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── CTA Banner ─────────────────────────────────────────── -->
+        <div class="cta-banner">
+            <div class="container">
+                <h2>Ready for a cleaner property?</h2>
+                <p>Call Steve directly at (480) 298-3416. Fast quotes, honest prices, real results backed by a satisfaction guarantee.</p>
+                <div class="actions">
+                    <a class="button button-primary" href="tel:4802983416">Call (480) 298-3416</a>
+                    <a class="button button-ghost" href="/contact/">Request a Quote Online</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── FAQs ───────────────────────────────────────────────── -->
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="eyebrow">FAQs</span>
+                    <h2>Answers that help you book with confidence.</h2>
+                </div>
+                <div class="faqs-list">
+                    <details class="faq-item">
+                        <summary>What makes Clean Surface different from other pressure washing companies?</summary>
+                        <div class="faq-body">Steve uses soft washing for delicate exteriors and 240-degree hot-water steam for grease, gum, and stubborn stains. The method changes based on the surface instead of treating everything like concrete. You also deal with Steve directly — not a dispatch center.</div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Do you really guarantee driveway cleaning?</summary>
+                        <div class="faq-body">Yes. When Steve recommends a specific treatment for a driveway and the surface does not show noticeable improvement, the job is covered by a written money-back guarantee. Terms are confirmed on the quote.</div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Will I talk to a real person when I reach out?</summary>
+                        <div class="faq-body">Yes. Steve handles quoting and communication directly. Call or text (480) 298-3416 and you reach someone who knows the services, can explain what the job needs, and will get it scheduled.</div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Is soft washing safe for my stucco?</summary>
+                        <div class="faq-body">Absolutely. Soft washing uses low pressure and biodegradable detergents specifically designed for stucco and painted surfaces. It's actually safer and more effective than high-pressure washing for these materials — and it's what Steve uses on Arizona homes.</div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>How far in advance do I need to book?</summary>
+                        <div class="faq-body">Turnaround is usually 2–5 days for most residential jobs. Commercial and larger projects may vary. Call Steve directly and he'll give you an honest timeline upfront.</div>
+                    </details>
+                </div>
+                <div class="actions mt-lg" style="justify-content:center;">
+                    <a class="button button-secondary" href="/faqs/">View All FAQs</a>
+                </div>
+            </div>
+        </section>
+
     </main>
 
-    <footer class="footer">
-        <div class="container footer-grid">
-            <div class="footer-copy">
-                <img src="/assets/images/logo.png" alt="Clean Surface logo">
-                <p>Clean Surface is a family-owned Phoenix company serving homes, driveways, patios, storefronts, exterior glass, and commercial concrete across the Phoenix metro.</p>
-                <p>&copy; <span data-year></span> Clean Surface Pressure Washing LLC</p>
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="/assets/images/logo.png" alt="Clean Surface Pressure Washing">
+                    <p>Family-owned exterior cleaning for Phoenix metro homes and businesses. Steve Tersakian leads every job — licensed, insured, and backed by a satisfaction guarantee.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="/services/house-washing/">House Washing</a></li>
+                        <li><a href="/services/driveway-cleaning/">Driveway Cleaning</a></li>
+                        <li><a href="/services/commercial-pressure-washing/">Commercial</a></li>
+                        <li><a href="/services/hot-water-steam-cleaning/">Steam Cleaning</a></li>
+                        <li><a href="/services/window-cleaning/">Window Cleaning</a></li>
+                        <li><a href="/services/">All Services</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Service Areas</h4>
+                    <ul>
+                        <li><a href="/phoenix/">Phoenix</a></li>
+                        <li><a href="/scottsdale/">Scottsdale</a></li>
+                        <li><a href="/mesa/">Mesa</a></li>
+                        <li><a href="/gilbert/">Gilbert</a></li>
+                        <li><a href="/chandler/">Chandler</a></li>
+                        <li><a href="/service-areas/">All Areas</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col footer-contact">
+                    <h4>Contact</h4>
+                    <p>Call or text Steve directly:</p>
+                    <p><a href="tel:4802983416">(480) 298-3416</a></p>
+                    <p>4108 W Windrose Dr<br>Phoenix, AZ 85029</p>
+                    <p>7-day availability · Fast quotes</p>
+                </div>
             </div>
-            <div class="footer-links"><a href="/about/">About</a><a href="/services/">Services</a><a href="/service-areas/">Service Areas</a><a href="/gallery/">Gallery</a><a href="/faqs/">FAQs</a><a href="/contact/">Contact</a></div>
+        </div>
+        <div class="container">
+            <div class="footer-bottom">
+                <span>© <span data-year></span> Clean Surface Pressure Washing LLC · Phoenix, AZ</span>
+                <span><a href="/terms/">Terms</a> · <a href="/privacy/">Privacy Policy</a></span>
+            </div>
         </div>
     </footer>
 
-    <div class="mobile-bar" aria-label="Quick actions">
-        <a class="button button-secondary" href="sms:+14802983416">Text Us</a>
-        <a class="button button-primary" href="tel:4802983416">Call Now</a>
+    <!-- Mobile Action Bar -->
+    <div class="mobile-actions" aria-label="Quick contact">
+        <a class="text-btn" href="sms:+14802983416">Text Us</a>
+        <a class="call-btn" href="tel:4802983416">Call Now</a>
     </div>
 
-    <script src="/assets/js/site.js?v=3"></script>
+    <script src="/assets/js/site.js?v=4"></script>
+    <script>
+        // Year auto-update
+        document.querySelectorAll('[data-year]').forEach(el => el.textContent = new Date().getFullYear());
+    </script>
 </body>
 </html>
