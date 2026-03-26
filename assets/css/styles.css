@@ -1894,6 +1894,110 @@ figcaption {
     font-weight: 400;
 }
 
+/* ── Sq ft slider ── */
+.est-step-sqft {
+    margin-bottom: 4px;
+}
+
+.est-sqft-readout {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+    margin-bottom: 10px;
+}
+
+.est-sqft-value {
+    font: 700 2.2rem/1 var(--font-head, "Space Grotesk", sans-serif);
+    color: var(--brand-green);
+}
+
+.est-sqft-unit {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.est-sqft-input {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 5px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.18);
+    outline: none;
+    cursor: pointer;
+    margin: 0 0 8px;
+}
+
+.est-sqft-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--brand-green);
+    border: 3px solid #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+    cursor: pointer;
+}
+
+.est-sqft-input::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--brand-green);
+    border: 3px solid #fff;
+    cursor: pointer;
+}
+
+.est-sqft-ticks {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.35);
+    margin-bottom: 14px;
+}
+
+.est-sqft-oversize-btn {
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font: 500 0.76rem/1 var(--font-sans, "IBM Plex Sans", sans-serif);
+    color: rgba(255, 255, 255, 0.55);
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+    margin-bottom: 14px;
+}
+
+.est-sqft-oversize-btn:hover {
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.est-sqft-oversize {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 6px;
+}
+
+.est-sqft-oversize p {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.75);
+    margin: 0 0 12px;
+}
+
+.est-oversize-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.est-oversize-actions .button {
+    font-size: 0.8rem;
+    padding: 8px 14px;
+}
+
 /* ── Wizard progress bar ── */
 .est-progress {
     display: flex;

@@ -272,6 +272,13 @@ const SLIDER_SCALES = {
     }
 };
 
+function sqftToSizeKey(sqft) {
+    const n = Number(sqft) || 800;
+    if (n <= 600) { return "small"; }
+    if (n <= 1800) { return "medium"; }
+    return "large";
+}
+
 const CONDITION_FACTORS = {
     "Light dust or maintenance clean": [1, 1.05],
     "Moderate buildup or staining": [1.08, 1.18],
@@ -437,7 +444,7 @@ function buildCardField(formId, scale, defaultIndex, stepNum) {
                 '<span class="est-step-label">' + escapeHtml(config.fieldLabel) + '</span>' +
             '</div>' +
             '<input type="hidden" name="' + scale + 'Level" value="' + String(defaultIndex) + '">' +
-            '<div class="est-cards" role="group" aria-label="' + escapeHtml(config.fieldLabel) + '">' +
+            '<div class="est-cards" role="group" aria-label="' + escapeHtml(config.fieldLabel) + '" data-multi="true">' +
                 cards +
             '</div>' +
             '<p class="est-step-hint">' + escapeHtml(config.hint) + '</p>' +
@@ -500,6 +507,32 @@ function buildAddonsSection(formId) {
     );
 }
 
+function buildSqftSlider(formId, defaultSqft) {
+    const val = Number(defaultSqft) || 800;
+    return (
+        '<div class="est-step est-step-sqft">' +
+            '<div class="est-step-header">' +
+                '<span class="est-step-label">How many square feet?</span>' +
+            '</div>' +
+            '<div class="est-sqft-readout">' +
+                '<span class="est-sqft-value" id="' + formId + '-sqft-val">' + val.toLocaleString("en-US") + '</span>' +
+                '<span class="est-sqft-unit">&nbsp;sq ft</span>' +
+            '</div>' +
+            '<input class="est-sqft-input" type="range" name="sqft" min="100" max="4000" step="50" value="' + val + '" autocomplete="off">' +
+            '<div class="est-sqft-ticks"><span>100</span><span>1,000</span><span>2,000</span><span>3,000</span><span>4,000</span></div>' +
+            '<button type="button" class="est-sqft-oversize-btn">Larger than 4,000 sq&nbsp;ft?</button>' +
+            '<div class="est-sqft-oversize" hidden>' +
+                '<p>Jobs over 4,000 sq ft need a custom quote. Reach out and the team will get back to you.</p>' +
+                '<div class="est-oversize-actions">' +
+                    '<a class="button button-primary" href="' + OFFICE_SMS + '">Text Us</a>' +
+                    '<a class="button button-secondary" href="' + OFFICE_CALL + '">Call Now</a>' +
+                    '<a class="button button-secondary" href="/contact/">Submit a Request</a>' +
+                '</div>' +
+            '</div>' +
+        '</div>'
+    );
+}
+
 function goToWizardStep(form, stepNum) {
     form.querySelectorAll(".est-wizard-panel").forEach(function (panel) {
         panel.classList.toggle("is-active", Number(panel.dataset.wizardStep) === stepNum);
@@ -515,9 +548,8 @@ function renderEstimatorForm(form, index) {
     const prefill = readEstimatorPrefill();
     const existingService = form.dataset.service || prefill.service || "";
     const existingCity = form.dataset.city || prefill.city || "";
-    const serviceIndex = findStepIndex("service", existingService);
+    const serviceIndex = existingService ? findStepIndex("service", existingService) : -1;
     const areaIndex = getDefaultAreaIndex(existingCity || "Phoenix");
-    const sizeIndex = findStepIndex("size", "Medium");
     const conditionIndex = findStepIndex("condition", "Moderate buildup or staining");
     const timelineIndex = findStepIndex("timeline", prefill.timeline || "Next 2 weeks");
     const contactIndex = findStepIndex("contact", "Text");
@@ -532,10 +564,10 @@ function renderEstimatorForm(form, index) {
             '<span class="est-progress-sep" aria-hidden="true">›</span>' +
             '<button type="button" class="est-progress-step" data-goto-step="3">03&nbsp;Contact</button>' +
         '</nav>' +
-        // Panel 1: Service + Size
+        // Panel 1: Service + Sq Ft
         '<div class="est-wizard-panel is-active" data-wizard-step="1">' +
             buildCardField(formId, "service", serviceIndex) +
-            buildPillField(formId, "size", sizeIndex) +
+            buildSqftSlider(formId, 800) +
             '<div class="est-wizard-nav">' +
                 '<span></span>' +
                 '<button type="button" class="button button-primary est-btn-next" data-next-step="2">Details &rarr;</button>' +
@@ -596,18 +628,29 @@ function computeAddonTotal(form) {
 }
 
 function updateLivePrice(form) {
-    const serviceStep = getScaleStep("service", getFormValue(form, "serviceLevel") || "0");
-    const sizeStep = getScaleStep("size", getFormValue(form, "sizeLevel") || "1");
+    const serviceValue = getFormValue(form, "serviceLevel");
+    const serviceIndices = serviceValue.split(",").map(function (s) { return s.trim(); }).filter(Boolean);
+    if (!serviceIndices.length) { serviceIndices.push("0"); }
+
+    const sqft = Number(getFormValue(form, "sqft")) || 800;
+    const sizeKey = sqftToSizeKey(sqft);
     const conditionStep = getScaleStep("condition", getFormValue(form, "conditionLevel") || "1");
 
-    if (!serviceStep || !sizeStep || !conditionStep) {
-        return;
-    }
+    if (!conditionStep) { return; }
 
-    const estimate = buildEstimate(serviceStep.value, sizeStep.key || sizeStep.value.toLowerCase(), conditionStep.value);
+    var totalLow = 0;
+    var totalHigh = 0;
+    serviceIndices.forEach(function (idx) {
+        const step = getScaleStep("service", idx);
+        if (!step) { return; }
+        const est = buildEstimate(step.value, sizeKey, conditionStep.value);
+        totalLow += est.low;
+        totalHigh += est.high;
+    });
+
     const addonTotal = computeAddonTotal(form);
-    const low = roundToTwentyFive(estimate.low + addonTotal);
-    const high = roundToTwentyFive(estimate.high + addonTotal);
+    const low = roundToTwentyFive(totalLow + addonTotal);
+    const high = roundToTwentyFive(totalHigh + addonTotal);
     const rangeNode = form.querySelector(".est-live-range");
 
     if (rangeNode) {
@@ -616,17 +659,26 @@ function updateLivePrice(form) {
     }
 }
 
-function showServiceAddons(form, serviceName) {
+function syncServiceAddons(form) {
+    const serviceValue = getFormValue(form, "serviceLevel");
+    const serviceIndices = serviceValue.split(",").map(function (s) { return s.trim(); }).filter(Boolean);
+    const selectedServices = serviceIndices.map(function (idx) {
+        const step = getScaleStep("service", idx);
+        return step ? step.value : null;
+    }).filter(Boolean);
+
     form.querySelectorAll(".est-addon-group").forEach(function (group) {
-        group.hidden = group.dataset.forService !== serviceName;
+        const visible = selectedServices.includes(group.dataset.forService);
+        group.hidden = !visible;
+        if (!visible) {
+            group.querySelectorAll("input[type='checkbox']").forEach(function (cb) { cb.checked = false; });
+        }
     });
+
     const emptyNote = form.querySelector(".est-addons-empty");
     if (emptyNote) {
-        emptyNote.hidden = !!SERVICE_ADDONS[serviceName];
+        emptyNote.hidden = selectedServices.some(function (s) { return !!SERVICE_ADDONS[s]; });
     }
-    form.querySelectorAll(".est-addon-item input[type='checkbox']").forEach(function (cb) {
-        cb.checked = false;
-    });
 }
 
 function initEstimatorInteractions(form) {
@@ -648,6 +700,14 @@ function initEstimatorInteractions(form) {
             return;
         }
 
+        // Oversize toggle
+        const oversizeBtn = event.target.closest(".est-sqft-oversize-btn");
+        if (oversizeBtn) {
+            const panel = oversizeBtn.nextElementSibling;
+            if (panel) { panel.hidden = !panel.hidden; }
+            return;
+        }
+
         // Card / pill selection
         const btn = event.target.closest(".est-card, .est-pill");
         if (!btn) { return; }
@@ -657,24 +717,46 @@ function initEstimatorInteractions(form) {
         if (!fieldName || indexVal === undefined) { return; }
 
         const container = btn.closest(".est-cards, .est-pills");
-        if (container) {
-            container.querySelectorAll(".est-card, .est-pill").forEach(function (b) {
-                b.classList.remove("is-active");
-            });
+        const isMulti = container && container.dataset.multi === "true";
+
+        if (isMulti) {
+            btn.classList.toggle("is-active");
+        } else {
+            if (container) {
+                container.querySelectorAll(".est-card, .est-pill").forEach(function (b) {
+                    b.classList.remove("is-active");
+                });
+            }
+            btn.classList.add("is-active");
         }
-        btn.classList.add("is-active");
 
         const hiddenInput = form.querySelector("[name='" + fieldName + "']");
         if (hiddenInput) {
-            hiddenInput.value = indexVal;
+            if (isMulti) {
+                const activeIndices = [];
+                container.querySelectorAll("[data-index]").forEach(function (b) {
+                    if (b.classList.contains("is-active")) { activeIndices.push(b.dataset.index); }
+                });
+                hiddenInput.value = activeIndices.join(",");
+            } else {
+                hiddenInput.value = indexVal;
+            }
         }
 
         if (fieldName === "serviceLevel") {
-            const step = getScaleStep("service", indexVal);
-            if (step) { showServiceAddons(form, step.value); }
+            syncServiceAddons(form);
         }
 
         updateLivePrice(form);
+    });
+
+    form.addEventListener("input", function (event) {
+        if (event.target.classList.contains("est-sqft-input")) {
+            const val = Number(event.target.value);
+            const valDisplay = event.target.closest(".est-step-sqft") && event.target.closest(".est-step-sqft").querySelector(".est-sqft-value");
+            if (valDisplay) { valDisplay.textContent = val.toLocaleString("en-US"); }
+            updateLivePrice(form);
+        }
     });
 
     form.addEventListener("change", function (event) {
@@ -683,11 +765,7 @@ function initEstimatorInteractions(form) {
         }
     });
 
-    const defaultServiceStep = getScaleStep("service", getFormValue(form, "serviceLevel") || "0");
-    if (defaultServiceStep) {
-        showServiceAddons(form, defaultServiceStep.value);
-    }
-
+    syncServiceAddons(form);
     updateLivePrice(form);
 }
 
@@ -838,7 +916,7 @@ document.querySelectorAll(".quote-form").forEach(function (form) {
                 phone: getFormValue(form, "phone"),
                 email: getFormValue(form, "email"),
                 service: form.dataset.estimator === "full"
-                    ? getScaleStep("service", getFormValue(form, "serviceLevel") || "0")?.value || ""
+                    ? (function () { const v = getFormValue(form, "serviceLevel"); const idx = v.split(",")[0].trim(); return getScaleStep("service", idx)?.value || ""; })()
                     : getFormValue(form, "service"),
                 city: getFormValue(form, "city"),
                 timeline: form.dataset.estimator === "full"
@@ -855,9 +933,13 @@ document.querySelectorAll(".quote-form").forEach(function (form) {
             const name = getFormValue(form, "name");
             const phone = getFormValue(form, "phone");
             const email = getFormValue(form, "email");
-            const serviceStep = getScaleStep("service", getFormValue(form, "serviceLevel") || "0");
+            const serviceValue = getFormValue(form, "serviceLevel");
+            const serviceIndices = serviceValue.split(",").map(function (s) { return s.trim(); }).filter(Boolean);
+            if (!serviceIndices.length) { serviceIndices.push("0"); }
+            const serviceSteps = serviceIndices.map(function (idx) { return getScaleStep("service", idx); }).filter(Boolean);
             const areaStep = getScaleStep("area", getFormValue(form, "areaLevel") || "0");
-            const sizeStep = getScaleStep("size", getFormValue(form, "sizeLevel") || "1");
+            const sqft = Number(getFormValue(form, "sqft")) || 800;
+            const sizeKey = sqftToSizeKey(sqft);
             const conditionStep = getScaleStep("condition", getFormValue(form, "conditionLevel") || "1");
             const timelineStep = getScaleStep("timeline", getFormValue(form, "timelineLevel") || "1");
             const contactStep = getScaleStep("contact", getFormValue(form, "contactLevel") || "0");
@@ -873,38 +955,48 @@ document.querySelectorAll(".quote-form").forEach(function (form) {
                 return;
             }
 
-            const estimate = buildEstimate(serviceStep.value, sizeStep.key, conditionStep.value);
+            var totalLow = 0;
+            var totalHigh = 0;
+            serviceSteps.forEach(function (step) {
+                const est = buildEstimate(step.value, sizeKey, conditionStep.value);
+                totalLow += est.low;
+                totalHigh += est.high;
+            });
             const addonTotal = computeAddonTotal(form);
             const selectedAddons = [];
             form.querySelectorAll(".est-addon-item input[type='checkbox']:checked").forEach(function (cb) {
-                const nameEl = cb.closest(".est-addon-item") ? cb.closest(".est-addon-item").querySelector(".est-addon-name") : null;
+                const nameEl = cb.closest(".est-addon-item") && cb.closest(".est-addon-item").querySelector(".est-addon-name");
                 if (nameEl) { selectedAddons.push(nameEl.textContent.trim()); }
             });
-            const adjLow = roundToTwentyFive(estimate.low + addonTotal);
-            const adjHigh = roundToTwentyFive(estimate.high + addonTotal);
+            const adjLow = roundToTwentyFive(totalLow + addonTotal);
+            const adjHigh = roundToTwentyFive(totalHigh + addonTotal);
             const priceText = formatMoney(adjLow) + " \u2013 " + formatMoney(adjHigh);
-            const summary = "A realistic starting range for " + (serviceStep.summaryLabel || serviceStep.value.toLowerCase()) + " in the " + areaStep.value + " is " + priceText + ". Our team can tighten that once we know the exact property and surfaces involved.";
+            const serviceNames = serviceSteps.map(function (s) { return s.summaryLabel || s.value.toLowerCase(); }).join(" and ");
+            const summary = "A realistic starting range for " + serviceNames + " in the " + areaStep.value + " is " + priceText + ". Our team can tighten that once we know the exact property and surfaces involved.";
             const bullets = [
-                serviceStep.helpText,
-                sizeStep.helpText,
+                "Services: " + serviceSteps.map(function (s) { return s.value; }).join(", ") + ".",
+                "Area: " + sqft.toLocaleString("en-US") + " sq ft.",
                 conditionStep.helpText,
                 timelineStep.helpText,
                 "Reply preference: " + contactStep.label + ". " + contactStep.helpText
             ];
 
-            if (estimate.config.guarantee) {
-                bullets.push(estimate.config.guarantee);
-            }
+            serviceSteps.forEach(function (step) {
+                if (SERVICE_CONFIG[step.value] && SERVICE_CONFIG[step.value].guarantee) {
+                    bullets.push(SERVICE_CONFIG[step.value].guarantee);
+                }
+            });
 
             if (selectedAddons.length > 0) {
                 bullets.push("Add-ons requested: " + selectedAddons.join(", ") + ".");
             }
 
+            const serviceRequestNames = serviceSteps.map(function (s) { return s.requestLabel || s.value.toLowerCase(); }).join(" and ");
             const draftParts = [
                 "Hi Clean Surface, I'm " + name + ".",
-                "I'm looking for " + (serviceStep.requestLabel || serviceStep.value.toLowerCase()) + ".",
+                "I'm looking for " + serviceRequestNames + ".",
                 "The property is in the " + areaStep.value + ".",
-                "Job size: " + sizeStep.value + ".",
+                "Estimated area: " + sqft.toLocaleString("en-US") + " sq ft.",
                 "Current condition: " + conditionStep.value + ".",
                 "Timeline: " + timelineStep.value + ".",
                 "Please reply by " + contactStep.value.toLowerCase() + ".",
