@@ -638,7 +638,8 @@ p:last-child { margin-bottom: 0; }
     position: absolute;
     top: 0;
     left: 0;
-    height: 100%;
+    width: 100% !important;
+    height: 100% !important;
     clip-path: inset(0 50% 0 0);
     pointer-events: none;
 }
