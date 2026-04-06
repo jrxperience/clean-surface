@@ -18,7 +18,54 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/styles.css">
     <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"Service","name":"Hot-Water Steam Cleaning","serviceType":"High-heat exterior surface cleaning","provider":{"@type":"LocalBusiness","name":"Clean Surface Pressure Washing","telephone":"+1-480-298-3416"},"areaServed":["Phoenix","Scottsdale","Mesa","Gilbert","Chandler"]}
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Service",
+          "name": "Hot-Water Steam Cleaning",
+          "serviceType": "Pressure washing and exterior cleaning",
+          "url": "https://www.cleansurfacepressurewashing.com/services/hot-water-steam-cleaning/",
+          "description": "240-degree hot-water steam cleaning for grease, gum, oil stains, and embedded grime on driveways, commercial entries, dumpster pads, and industrial concrete across Phoenix metro.",
+          "provider": {
+            "@type": "LocalBusiness",
+            "@id": "https://www.cleansurfacepressurewashing.com/#business",
+            "name": "Clean Surface Pressure Washing",
+            "telephone": "+1-480-298-3416"
+          },
+          "areaServed": ["Phoenix","Scottsdale","Mesa","Gilbert","Chandler","Tempe","Glendale","Peoria","Paradise Valley"]
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+                    {
+              "@type": "Question",
+              "name": "When is steam cleaning better than regular pressure washing?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Steam cleaning is the better choice when grease, gum, oil stains, or embedded grime are involved. The heat breaks down the molecular bond between the contaminant and the surface in a way that cold water cannot replicate, even at very high pressure."
+              }
+            },
+                    {
+              "@type": "Question",
+              "name": "What kinds of jobs benefit most from hot-water cleaning?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Greasy driveways, restaurant and food-service entries, dumpster pads, gum-covered walkways, industrial concrete, and any surface with heavy oil buildup."
+              }
+            },
+                    {
+              "@type": "Question",
+              "name": "Can steam cleaning be combined with other services?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, and it often works best that way. For a job that includes a driveway, patio, and house exterior, the crew can apply steam to the concrete and oil-heavy areas while using soft washing on the delicate surfaces in the same visit."
+              }
+            }
+          ]
+        }
+      ]
+    }
     </script>
 </head>
 <body>

@@ -18,7 +18,54 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/styles.css">
     <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"Service","name":"House Washing and Soft Washing","serviceType":"Exterior house washing","provider":{"@type":"LocalBusiness","name":"Clean Surface Pressure Washing","telephone":"+1-480-298-3416"},"areaServed":["Phoenix","Scottsdale","Mesa","Gilbert","Chandler"]}
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Service",
+          "name": "House Washing and Soft Washing",
+          "serviceType": "Pressure washing and exterior cleaning",
+          "url": "https://www.cleansurfacepressurewashing.com/services/house-washing/",
+          "description": "Professional house washing and soft washing for stucco homes, painted exteriors, trim, and delicate finishes across Phoenix, Scottsdale, Mesa, Gilbert, and Chandler.",
+          "provider": {
+            "@type": "LocalBusiness",
+            "@id": "https://www.cleansurfacepressurewashing.com/#business",
+            "name": "Clean Surface Pressure Washing",
+            "telephone": "+1-480-298-3416"
+          },
+          "areaServed": ["Phoenix","Scottsdale","Mesa","Gilbert","Chandler","Tempe","Glendale","Peoria","Paradise Valley"]
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+                    {
+              "@type": "Question",
+              "name": "Is soft washing safer than regular pressure washing for stucco?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Soft washing is the better method for stucco, painted walls, trim, and siding because it avoids the pressure levels that can crack finishes, push water into gaps, or strip paint. The cleaning work is done by the detergent, not the force of the water."
+              }
+            },
+                    {
+              "@type": "Question",
+              "name": "What does house washing cost in Phoenix?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Most house washing jobs in the Phoenix area range from $200 to $500 depending on the home size, how much buildup is present, and whether additional surfaces are included. Steve can give a firm quote once he knows the property."
+              }
+            },
+                    {
+              "@type": "Question",
+              "name": "How often should a house be washed in Arizona?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Most Phoenix-area homes benefit from annual professional exterior cleaning to remove dust, pollution, and biological growth. Homes near construction zones, with heavy irrigation overspray, or in dusty corridors may need service more often."
+              }
+            }
+          ]
+        }
+      ]
+    }
     </script>
 </head>
 <body>

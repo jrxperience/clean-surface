@@ -20,24 +20,50 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Service",
-      "name": "Window Cleaning",
-      "serviceType": "Residential and commercial window cleaning",
-      "provider": {
-        "@type": "LocalBusiness",
-        "name": "Clean Surface Pressure Washing",
-        "telephone": "+1-480-298-3416"
-      },
-      "areaServed": [
-        "Phoenix",
-        "Scottsdale",
-        "Mesa",
-        "Gilbert",
-        "Chandler",
-        "Tempe",
-        "Glendale",
-        "Peoria",
-        "Paradise Valley"
+      "@graph": [
+        {
+          "@type": "Service",
+          "name": "Window Cleaning",
+          "serviceType": "Pressure washing and exterior cleaning",
+          "url": "https://www.cleansurfacepressurewashing.com/services/window-cleaning/",
+          "description": "Residential and commercial window cleaning for glass, frames, tracks, screens, and sills across Phoenix metro.",
+          "provider": {
+            "@type": "LocalBusiness",
+            "@id": "https://www.cleansurfacepressurewashing.com/#business",
+            "name": "Clean Surface Pressure Washing",
+            "telephone": "+1-480-298-3416"
+          },
+          "areaServed": ["Phoenix","Scottsdale","Mesa","Gilbert","Chandler","Tempe","Glendale","Peoria","Paradise Valley"]
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+                    {
+              "@type": "Question",
+              "name": "How often should windows be professionally cleaned in Arizona?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Many homes do well with service two or three times a year, while storefronts and customer-facing properties often need more frequent cleaning to stay sharp."
+              }
+            },
+                    {
+              "@type": "Question",
+              "name": "Can tracks, frames, screens, and sills be cleaned too?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Clean Surface can clean the full window detail so the finished result feels complete instead of stopping at the glass."
+              }
+            },
+                    {
+              "@type": "Question",
+              "name": "Is window cleaning safe for treated or delicate glass?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. The method is matched to the glass and surrounding materials, with extra care around tinted, coated, or more delicate surfaces."
+              }
+            }
+          ]
+        }
       ]
     }
     </script>

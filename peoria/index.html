@@ -19,15 +19,59 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Service",
-      "name": "Peoria Pressure Washing",
-      "serviceType": "Pressure washing and exterior cleaning",
-      "areaServed": "Peoria, AZ",
-      "provider": {
-        "@type": "LocalBusiness",
-        "name": "Clean Surface Pressure Washing",
-        "telephone": "+1-480-298-3416"
-      }
+      "@graph": [
+        {
+          "@type": "LocalBusiness",
+          "@id": "https://www.cleansurfacepressurewashing.com/#business",
+          "name": "Clean Surface Pressure Washing",
+          "url": "https://www.cleansurfacepressurewashing.com/",
+          "telephone": "+1-480-298-3416",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "4108 W Windrose Dr",
+            "addressLocality": "Phoenix",
+            "addressRegion": "AZ",
+            "postalCode": "85029",
+            "addressCountry": "US"
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "5.0",
+            "reviewCount": "175",
+            "bestRating": "5"
+          },
+          "areaServed": ["Phoenix","Scottsdale","Mesa","Gilbert","Chandler","Tempe","Glendale","Peoria","Paradise Valley"]
+        },,
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+                    {
+              "@type": "Question",
+              "name": "What pressure washing services make the most sense in Peoria?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Driveway cleaning, patio and pool deck washing, house washing, and window cleaning are all common fits because Peoria properties often have multiple visible surfaces around the home."
+              }
+            },
+                    {
+              "@type": "Question",
+              "name": "Can driveway and pool deck cleaning be scheduled together in Peoria?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Bundling front-of-home concrete with backyard surfaces is common and makes it easier to clean the property in one coordinated visit."
+              }
+            },
+                    {
+              "@type": "Question",
+              "name": "Is soft washing the right choice for Peoria stucco homes?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Usually, yes. Soft washing is the preferred method for stucco and painted exteriors because it cleans effectively without using unnecessary pressure."
+              }
+            }
+          ]
+        }
+      ]
     }
     </script>
 </head>

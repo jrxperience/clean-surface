@@ -1230,3 +1230,46 @@ scrollTopButton.addEventListener("click", function () {
         }
     });
 }());
+
+// ── Before/After Drag Slider ──────────────────────────────
+(function () {
+    document.querySelectorAll(".ba-slider").forEach(function (slider) {
+        var afterImg = slider.querySelector(".ba-after");
+        var handle = slider.querySelector(".ba-handle");
+        if (!afterImg || !handle) return;
+
+        var dragging = false;
+
+        function setPosition(clientX) {
+            var rect = slider.getBoundingClientRect();
+            var pct = Math.min(100, Math.max(0, (clientX - rect.left) / rect.width * 100));
+            var right = 100 - pct;
+            afterImg.style.clipPath = "inset(0 " + right + "% 0 0)";
+            handle.style.left = pct + "%";
+        }
+
+        handle.addEventListener("mousedown", function (e) {
+            dragging = true;
+            e.preventDefault();
+        });
+
+        slider.addEventListener("touchstart", function () {
+            dragging = true;
+        }, { passive: true });
+
+        document.addEventListener("mousemove", function (e) {
+            if (dragging) setPosition(e.clientX);
+        });
+
+        document.addEventListener("touchmove", function (e) {
+            if (dragging) setPosition(e.touches[0].clientX);
+        }, { passive: true });
+
+        document.addEventListener("mouseup", function () { dragging = false; });
+        document.addEventListener("touchend", function () { dragging = false; });
+
+        slider.addEventListener("click", function (e) {
+            setPosition(e.clientX);
+        });
+    });
+}());

@@ -18,7 +18,54 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/styles.css">
     <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"Service","name":"Driveway Cleaning and Concrete Pressure Washing","serviceType":"Concrete cleaning","provider":{"@type":"LocalBusiness","name":"Clean Surface Pressure Washing","telephone":"+1-480-298-3416"},"areaServed":["Phoenix","Scottsdale","Mesa","Gilbert","Chandler"]}
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Service",
+          "name": "Driveway Cleaning",
+          "serviceType": "Pressure washing and exterior cleaning",
+          "url": "https://www.cleansurfacepressurewashing.com/services/driveway-cleaning/",
+          "description": "Driveway cleaning for oil stains, rust, tire marks, and mineral buildup on concrete, pavers, and asphalt across Phoenix metro with a written money-back guarantee.",
+          "provider": {
+            "@type": "LocalBusiness",
+            "@id": "https://www.cleansurfacepressurewashing.com/#business",
+            "name": "Clean Surface Pressure Washing",
+            "telephone": "+1-480-298-3416"
+          },
+          "areaServed": ["Phoenix","Scottsdale","Mesa","Gilbert","Chandler","Tempe","Glendale","Peoria","Paradise Valley"]
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+                    {
+              "@type": "Question",
+              "name": "Do you really offer a driveway money-back guarantee?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. When Steve recommends a specific treatment for a driveway and the surface does not show noticeable improvement, the job is covered by a written money-back guarantee. Final terms are confirmed on the quote."
+              }
+            },
+                    {
+              "@type": "Question",
+              "name": "Can old driveway stains be removed completely?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Sometimes, but not always. Clean Surface keeps expectations honest because concrete age, porosity, and stain type matter. The goal is noticeable improvement, not unrealistic promises."
+              }
+            },
+                    {
+              "@type": "Question",
+              "name": "When does hot-water steam help on driveway jobs?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Hot-water steam is especially useful for oil, grease, gum, and other stubborn buildup that cold-water washing struggles to break down."
+              }
+            }
+          ]
+        }
+      ]
+    }
     </script>
 </head>
 <body>

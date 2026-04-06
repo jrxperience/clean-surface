@@ -18,7 +18,54 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/styles.css">
     <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"Service","name":"Commercial Pressure Washing","serviceType":"Commercial exterior cleaning","provider":{"@type":"LocalBusiness","name":"Clean Surface Pressure Washing","telephone":"+1-480-298-3416"},"areaServed":["Phoenix","Scottsdale","Mesa","Gilbert","Chandler"]}
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Service",
+          "name": "Commercial Pressure Washing",
+          "serviceType": "Pressure washing and exterior cleaning",
+          "url": "https://www.cleansurfacepressurewashing.com/services/commercial-pressure-washing/",
+          "description": "Commercial pressure washing for storefronts, retail centers, office building entries, parking areas, sidewalks, dumpster pads, and customer-facing surfaces across Phoenix metro.",
+          "provider": {
+            "@type": "LocalBusiness",
+            "@id": "https://www.cleansurfacepressurewashing.com/#business",
+            "name": "Clean Surface Pressure Washing",
+            "telephone": "+1-480-298-3416"
+          },
+          "areaServed": ["Phoenix","Scottsdale","Mesa","Gilbert","Chandler","Tempe","Glendale","Peoria","Paradise Valley"]
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+                    {
+              "@type": "Question",
+              "name": "What kinds of commercial properties do you clean?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Storefronts, retail centers, office building entries, parking areas, sidewalks, dumpster pads, awnings, and other customer-facing or high-traffic surfaces."
+              }
+            },
+                    {
+              "@type": "Question",
+              "name": "How often should a commercial property be cleaned in Phoenix?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Most commercial properties benefit from quarterly pressure washing given the desert dust and monsoon conditions. High-traffic locations like food service entries, parking structures, and retail walkways may need more frequent service."
+              }
+            },
+                    {
+              "@type": "Question",
+              "name": "Can you schedule commercial cleaning around business hours?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Clean Surface offers evening and weekend scheduling so the work can be handled during your slowest hours without disrupting operations or customers."
+              }
+            }
+          ]
+        }
+      ]
+    }
     </script>
 </head>
 <body>

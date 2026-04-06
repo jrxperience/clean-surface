@@ -19,15 +19,59 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Service",
-      "name": "Phoenix Pressure Washing",
-      "serviceType": "Pressure washing and exterior cleaning",
-      "areaServed": "Phoenix, AZ",
-      "provider": {
-        "@type": "LocalBusiness",
-        "name": "Clean Surface Pressure Washing",
-        "telephone": "+1-480-298-3416"
-      }
+      "@graph": [
+        {
+          "@type": "LocalBusiness",
+          "@id": "https://www.cleansurfacepressurewashing.com/#business",
+          "name": "Clean Surface Pressure Washing",
+          "url": "https://www.cleansurfacepressurewashing.com/",
+          "telephone": "+1-480-298-3416",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "4108 W Windrose Dr",
+            "addressLocality": "Phoenix",
+            "addressRegion": "AZ",
+            "postalCode": "85029",
+            "addressCountry": "US"
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "5.0",
+            "reviewCount": "175",
+            "bestRating": "5"
+          },
+          "areaServed": ["Phoenix","Scottsdale","Mesa","Gilbert","Chandler","Tempe","Glendale","Peoria","Paradise Valley"]
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How often should Phoenix homes be pressure washed?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Most homes benefit from annual cleaning, while driveways, patios, and commercial surfaces often need more frequent maintenance."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is soft washing better for Phoenix stucco?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Soft washing is usually the safer choice for stucco and painted surfaces because it cleans effectively without using too much pressure."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can you improve hard-water and oil staining in Phoenix?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Those stains can often be improved significantly, especially when the right pretreatment and hot-water cleaning methods are used."
+              }
+            }
+          ]
+        }
+      ]
     }
     </script>
 </head>
