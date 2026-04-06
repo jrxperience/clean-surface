@@ -1238,38 +1238,28 @@ scrollTopButton.addEventListener("click", function () {
         var handle = slider.querySelector(".ba-handle");
         if (!afterImg || !handle) return;
 
-        var dragging = false;
-
         function setPosition(clientX) {
             var rect = slider.getBoundingClientRect();
-            var pct = Math.min(100, Math.max(0, (clientX - rect.left) / rect.width * 100));
-            var right = 100 - pct;
-            afterImg.style.clipPath = "inset(0 " + right + "% 0 0)";
+            var pct = Math.min(98, Math.max(2, (clientX - rect.left) / rect.width * 100));
+            afterImg.style.clipPath = "inset(0 " + (100 - pct) + "% 0 0)";
             handle.style.left = pct + "%";
         }
 
-        handle.addEventListener("mousedown", function (e) {
-            dragging = true;
+        // Pointer Events API handles mouse, touch, and pen uniformly
+        slider.addEventListener("pointerdown", function (e) {
+            slider.setPointerCapture(e.pointerId);
+            setPosition(e.clientX);
             e.preventDefault();
         });
 
-        slider.addEventListener("touchstart", function () {
-            dragging = true;
-        }, { passive: true });
-
-        document.addEventListener("mousemove", function (e) {
-            if (dragging) setPosition(e.clientX);
+        slider.addEventListener("pointermove", function (e) {
+            if (slider.hasPointerCapture(e.pointerId)) {
+                setPosition(e.clientX);
+            }
         });
 
-        document.addEventListener("touchmove", function (e) {
-            if (dragging) setPosition(e.touches[0].clientX);
-        }, { passive: true });
-
-        document.addEventListener("mouseup", function () { dragging = false; });
-        document.addEventListener("touchend", function () { dragging = false; });
-
-        slider.addEventListener("click", function (e) {
-            setPosition(e.clientX);
+        slider.addEventListener("pointerup", function (e) {
+            slider.releasePointerCapture(e.pointerId);
         });
     });
 }());
